@@ -25,7 +25,7 @@ Route::prefix('familias-profesionales')->group(function () {
         return 'Listado familias profesionales';
     });
     Route::get('/show/{id}', function ($id) {
-        return 'Vista detalle familia profeisonal ' . $id;
+        return 'Vista detalle familia profesional ' . $id;
     })->where('id', '[0-9]+');
     Route::get('/create', function () {
         return 'Añadir familia profesional';
