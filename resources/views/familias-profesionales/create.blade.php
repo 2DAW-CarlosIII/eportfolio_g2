@@ -3,5 +3,5 @@
 
 
     @section('content')
-        <h2>Pantalla Principal</h2>
+        <h2>Create Familias Profesionales</h2>
     @endsection

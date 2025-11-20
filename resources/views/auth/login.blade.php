@@ -3,5 +3,5 @@
 
 
     @section('content')
-        <h2>Pantalla Principal</h2>
+        <h2>Login user</h2>
     @endsection
