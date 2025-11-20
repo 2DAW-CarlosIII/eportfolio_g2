@@ -1,7 +1,4 @@
 @extends('landed.master');
 @section('content')
-
-    <p>indice sugerido </p>
-
+    <p>Mostrar la informacion: {{$id}}</p>
 @stop
-

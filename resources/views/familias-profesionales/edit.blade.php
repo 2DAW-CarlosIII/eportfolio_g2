@@ -1,6 +1,5 @@
 @extends('landed.master')
 @section('content')
-
-    <p>Editar la informacion</p>
+    <p>Editar la informacion: {{$id}}</p>
 @stop
 

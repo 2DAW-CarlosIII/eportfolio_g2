@@ -1,7 +1,5 @@
 @extends('landed.master');
 @section('content')
-
-    <p>Mostrar la informacion</p>
-
-
+   <p>Creacion de vista correcta</p>
 @stop
+
