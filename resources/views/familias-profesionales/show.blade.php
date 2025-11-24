@@ -1,5 +1,4 @@
 @extends('landed.master')
-<<<<<<< HEAD
     @section('content')
     <div class="row m-4">
 
@@ -48,11 +47,4 @@
 
         </div>
     </div>
-=======
-
-
-
-    @section('content')
-        <h2>Familias Profesionales {{$id}}</h2>
->>>>>>> 5ca93a89861eddb2d71db1212c7d199885d3a94b
     @endsection
