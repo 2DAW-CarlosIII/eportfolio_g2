@@ -2,17 +2,17 @@
     @section('content')
 <div class="row">
 
-    @foreach ($familiasProfesionales as $key => $familiaProfesional)
+    @foreach ($familias_profesionales as $key => $familiaProfesional)
 
     <div class="col-4 col-6-medium col-12-small">
         <section class="box">
-            <a href="#" class="image featured"><img src="{{ asset('/images/logo.png') }}" alt="" /></a>
+            <a href="#" class="image featured"><img src="{{ asset('/landed/images/logo.png') }}" style="height:200px" /></a>
             <header>
                 <h3>{{ $familiaProfesional['nombre'] }}</h3>
             </header>
             <p>
-                <a href="http://github.com/2DAW-CarlosIII/{{ $familiaProfesional['dominio'] }}">
-                    http://github.com/2DAW-CarlosIII/{{ $familiaProfesional['dominio'] }}
+                <a href="http://github.com/2DAW-CarlosIII/{{ $familiaProfesional['codigo'] }}">
+                    http://github.com/2DAW-CarlosIII/{{ $familiaProfesional['codigo'] }}
                 </a>
             </p>
             <footer>
