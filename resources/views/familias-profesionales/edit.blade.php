@@ -13,14 +13,14 @@
                 </div>
                 <div class="card-body" style="padding:30px">
 
-                    <form action="{{ action([App\Http\Controllers\ProyectosController::class, 'update'],  ['id' => $id]) }}" method="POST">
+                    <form action="{{ action([App\Http\Controllers\FamiliasProfesionalesController::class, 'update'],  ['id' => $id]) }}" method="POST">
 
                         @csrf
                         @method('PUT')
 
                         <div class="form-group">
                             <label for="nombre">Nombre</label>
-                            <input type="text" name="nombre" id="nombre" class="form-control">
+                            <input type="text" name="nombre" id="nombre" class="form-control value="{{$familias_profesionales['nombre']}}>
                         </div>
 
                         <div class="form-group">

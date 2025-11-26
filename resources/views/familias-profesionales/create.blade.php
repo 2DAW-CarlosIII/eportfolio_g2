@@ -13,7 +13,7 @@
                 </div>
                 <div class="card-body" style="padding:30px">
 
-                    <form action="{{ action([App\Http\Controllers\ProyectosController::class, 'store']) }}" method="POST">
+                    <form action="{{ action([App\Http\Controllers\FamiliasProfesionalesController::class, 'store']) }}" method="POST">
 
                         @csrf
 
@@ -31,6 +31,8 @@
                             <label for="dominio">Dominio</label><br />
                             https://github.com/2DAW-CarlosIII/
                             <input type="text" name="dominio" id="dominio" class="form-control">
+                            <label for="docente_id">Codigo</label>
+                            <input type="number" name="codigo" id="codigo">
                         </div>
 
                         <div class="form-group">
