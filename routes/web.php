@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CiclosFormativosController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\FamiliasProfesionalesController;
 use Illuminate\Support\Facades\Route;
@@ -31,6 +32,26 @@ Route::prefix('familias_profesionales')->group(function () {
     Route::post('store',[FamiliasProfesionalesController::class,'store']);
 
     Route::put('update/{id}',[FamiliasProfesionalesController::class,'update'])->where('id', '[0-9]+');
+
+});
+
+
+// ----------------------------------------
+Route::prefix('ciclos_formativos')->group(function () {
+
+   Route::get('/', [CiclosFormativosController::class, 'getIndex']);
+
+
+   Route::get('create', [CiclosFormativosController::class, 'getCreate']);
+
+
+    Route::get('show/{id}',[CiclosFormativosController::class,'getShow']) -> where('id', '[0-9]+');
+
+    Route::get('edit/{id}',[CiclosFormativosController::class,'getEdit']) -> where('id', '[0-9]+');
+
+    Route::post('store',[CiclosFormativosController::class,'store']);
+
+    Route::put('update/{id}',[CiclosFormativosController::class,'update'])->where('id', '[0-9]+');
 
 });
 

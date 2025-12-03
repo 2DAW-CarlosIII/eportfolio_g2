@@ -7,6 +7,6 @@ use Illuminate\Http\Request;
 class WelcomeController extends Controller
 {
     public function getHome(){
-        return redirect()->action([FamiliasProfesionalesController::class,'getIndex']);
+        return redirect()->action([CiclosFormativosController::class,'getIndex']);
     }
 }
