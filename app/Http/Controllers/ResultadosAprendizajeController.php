@@ -19,12 +19,12 @@ class ResultadosAprendizajeController extends Controller
     }
 
     public function getCreate(){
-        return view('resultados_aprendizaje.create');
+        return view('resultados-aprendizaje.create');
     }
 
     public function getEdit($id){
-        return view('resultados_aprendizaje.edit')
-            ->with('resultados-aprendizaje', ResultadoAprendizaje::findOrFail($id))
+        return view('resultados-aprendizaje.edit')
+            ->with('resultados_aprendizaje', ResultadoAprendizaje::findOrFail($id))
             ->with('id', $id);
     }
 

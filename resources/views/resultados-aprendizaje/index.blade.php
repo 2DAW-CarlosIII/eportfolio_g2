@@ -8,7 +8,7 @@
         <section class="box">
             <a href="#" class="image featured"><img src="{{ asset('/landed/images/logo.png') }}" style="height:200px" /></a>
             <header>
-                <h3>{{ $resultadoAprendizaje->nombre }}</h3>
+                <h3>{{ $resultadoAprendizaje->codigo }}</h3>
             </header>
             <p>
                 <a href="http://github.com/2DAW-CarlosIII/{{ $resultadoAprendizaje->codigo}}">

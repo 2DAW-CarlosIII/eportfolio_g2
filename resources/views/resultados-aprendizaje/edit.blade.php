@@ -3,16 +3,16 @@
 
 
     @section('content')
-  <h2>Editar Familias Profesionales con id: {{$id}}</h2>
+  <h2>Editar Resultado de aprendizaje: {{$id}}</h2>
           <div class="row" style="margin-top:40px">
         <div class="offset-md-3 col-md-6">
             <div class="card">
                 <div class="card-header text-center">
-                    Modificar familia profesional
+                    Modificar resultado de aprendizaje {{$resultados_aprendizaje->codigo}}
                 </div>
                 <div class="card-body" style="padding:30px">
 
-                    <form action="{{ action([App\Http\Controllers\ResultadosAprendizajeController::class, 'update'],  ($resultados_aprendizaje->) ) }}" method="POST">
+                    <form action="{{ action([App\Http\Controllers\ResultadosAprendizajeController::class, 'update'],  ($resultados_aprendizaje->id) ) }}" method="POST">
 
                         @csrf
                         @method('PUT')
@@ -30,7 +30,7 @@
 
                         <div class="form-group text-center">
                             <button type="submit" class="btn btn-primary" style="padding:8px 100px;margin-top:25px;">
-                                Modificar familia profesional
+                                Modificar resultado de aprendizaje
                             </button>
                         </div>
                     </form>
