@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\ResultadoAprendizaje;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Eloquent\Model;
@@ -17,7 +18,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        Model::unguard();
+        Schema::disableForeignKeyConstraints();
 
         /*User::factory()->create([
             'name' => 'Test User',
