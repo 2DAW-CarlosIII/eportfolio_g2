@@ -3,6 +3,7 @@
 use App\Http\Controllers\CiclosFormativosController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\FamiliasProfesionalesController;
+use App\Http\Controllers\ResultadosAprendizajeController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [WelcomeController::class, 'getHome']);
@@ -33,11 +34,23 @@ Route::prefix('familias_profesionales')->group(function () {
 
     Route::put('update/{id}', [FamiliasProfesionalesController::class, 'update'])->where('id', '[0-9]+');
 
-   
-});
- Route::prefix('ciclos_formativos')->group(function () {
 
-        Route::get('/', [CiclosFormativosController::class, 'getIndex']);
+});
+ Route::prefix('resultados_aprendizaje')->group(function () {
+
+            Route::get('/', [ResultadosAprendizajeController::class, 'getIndex']);
+
+            Route::get('create', [ResultadosAprendizajeController::class, 'getCreate']);
+
+            Route::get('show/{id}',[ResultadosAprendizajeController::class,'getShow']) -> where('id', '[0-9]+');
+
+            Route::get('edit/{id}',[ResultadosAprendizajeController::class,'getEdit']) -> where('id', '[0-9]+');
+
+            Route::post('store',[ResultadosAprendizajeController::class,'store']);
+
+            Route::put('update/{id}',[ResultadosAprendizajeController::class,'update'])->where('id', '[0-9]+');
+
+    });
 
 
         Route::get('create', [CiclosFormativosController::class, 'getCreate']);

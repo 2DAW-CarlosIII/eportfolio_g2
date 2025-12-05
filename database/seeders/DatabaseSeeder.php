@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\ResultadoAprendizaje;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Eloquent\Model;
@@ -20,8 +21,11 @@ class DatabaseSeeder extends Seeder
         Model::unguard();
         Schema::disableForeignKeyConstraints();
 
+        Model::unguard();
+        Schema::disableForeignKeyConstraints();
+
         // llamadas a otros ficheros de seed
-        $this->call(FamiliasProfesionalesTableSeeder::class);
+        $this->call(ResultadosAprendizajeTableSeeder::class);
 
         // llamadas a otros ficheros de seed
 
