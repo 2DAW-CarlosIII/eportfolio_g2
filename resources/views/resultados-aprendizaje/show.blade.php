@@ -18,10 +18,10 @@
             </h4>
             <h4><strong>Codigo: </strong>{{ $resultados_aprendizaje->codigo }}</h4>
 
-            
+
             <a class="btn btn-warning" href="{{ action([App\Http\Controllers\ResultadosAprendizajeController::class, 'getEdit'], ($resultados_aprendizaje->id)) }}">
                 <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-                Editar calificacion del alumno.
+                Editar resultado de aprendizaje.
             </a>
             <a class="btn btn-outline-info" href="{{ action([App\Http\Controllers\ResultadosAprendizajeController::class, 'getIndex']) }}">
                 Volver al listado

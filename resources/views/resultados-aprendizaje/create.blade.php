@@ -13,14 +13,14 @@
                 </div>
                 <div class="card-body" style="padding:30px">
 
-                    <form action="{{ action([App\Http\Controllers\ResultadosAprendizajeController::class, 'store']) }}" method="POST">
+                    <form action="{{ action([App\Http\Controllers\ResultadosAprendizajeController::class, 'postCreate']) }}" method="POST">
 
                         @csrf
 
 
                         <div class="form-group">
-                            <label for="nombre">Nombre</label>
-                            <input type="text" name="nombre" id="nombre" class="form-control">
+                            <label for="descripción">Descripcion</label>
+                            <input type="text" name="descripción" id="descripción" class="form-control">
                         </div>
 
 
@@ -28,6 +28,12 @@
 
                             <label for="codigo">Codigo</label>
                             <input type="text" name="codigo" id="codigo">
+                        </div>
+
+                        <div class="form-group">
+
+                            <label for="orden">Orden</label>
+                            <input type="number" name="orden" id="orden">
                         </div>
 
 

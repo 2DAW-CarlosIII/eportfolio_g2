@@ -12,19 +12,24 @@
                 </div>
                 <div class="card-body" style="padding:30px">
 
-                    <form action="{{ action([App\Http\Controllers\ResultadosAprendizajeController::class, 'update'],  ($resultados_aprendizaje->id) ) }}" method="POST">
+                    <form action="{{ action([App\Http\Controllers\ResultadosAprendizajeController::class, 'putCreate'],  ($resultados_aprendizaje->id) ) }}" method="POST">
 
                         @csrf
                         @method('PUT')
 
                         <div class="form-group">
-                            <label for="nombre">Nombre</label>
-                            <input type="text" name="nombre" id="nombre" class="form-control"  value="{{$resultados_aprendizaje->nombre}}">
+                            <label for="descripción">Descripcion</label>
+                            <input type="text" name="descripción" id="descripción" class="form-control"  value="{{$resultados_aprendizaje->descripción}}">
                         </div>
 
                         <div class="form-group">
                             <label for="codigo">Codigo</label>
                             <input type="text" name="codigo" id="codigo" value="{{$resultados_aprendizaje->codigo}}">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="orden">Orden</label>
+                            <input type="text" name="orden" id="orden" value="{{$resultados_aprendizaje->orden}}">
                         </div>
 
 
