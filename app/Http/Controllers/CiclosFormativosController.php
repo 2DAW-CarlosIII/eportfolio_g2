@@ -35,4 +35,15 @@ class CiclosFormativosController extends Controller
         return view('ciclos-formativos.edit')
             ->with('ciclo', $ciclos_formativos);
     }
+
+     public function postCreate(Request $request){
+        $ciclos_formativos=CicloFormativo::create($request->all());
+        return redirect()->action([self::class,'getShow'],['id'=>$ciclos_formativos->id]);
+    }
+
+    public function putCreate(Request $request,$id){
+        $ciclos_formativos=CicloFormativo::findOrFail($id);
+        $ciclos_formativos->update($request->all());
+        return redirect()->action([self::class,'getShow'],['id'=>$ciclos_formativos->id]);
+    }
 }

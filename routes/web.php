@@ -64,9 +64,9 @@ Route::prefix('ciclos_formativos')->group(function () {
 
         Route::get('edit/{id}', [CiclosFormativosController::class, 'getEdit'])->where('id', '[0-9]+');
 
-        Route::post('store', [CiclosFormativosController::class, 'store']);
+        Route::post('store', [CiclosFormativosController::class, 'postCreate']);
 
-        Route::put('update/{id}', [CiclosFormativosController::class, 'update'])->where('id', '[0-9]+');
+        Route::put('update/{id}', [CiclosFormativosController::class, 'putCreate'])->where('id', '[0-9]+');
     });
 // ----------------------------------------
 Route::get('perfil/{id?}', function ($id = null) {
