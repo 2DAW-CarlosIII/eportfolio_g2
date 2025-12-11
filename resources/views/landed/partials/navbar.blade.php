@@ -31,12 +31,8 @@
 
 
                     </li>
-                    <li>
-                         <a :href="{{ route('login') }}"
-                                    onclick="event.preventDefault();
-                                                this.closest('form').submit();">
-                                {{ __('Log Out') }}
-                        </a>
+                   <li>
+                        @include('landed.partials.dropdown-user')
                     </li>
                     @else
                     <li>
