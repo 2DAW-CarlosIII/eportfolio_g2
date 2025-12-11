@@ -3,7 +3,7 @@
             <!-- Settings Dropdown -->
             <li>
                 {{ Auth::user()->name }}
-                <ul>
+
                     <li>
                         <x-dropdown-link :href="route('profile.edit')">
                             {{ __('Profile') }}
@@ -21,8 +21,7 @@
                             </x-dropdown-link>
                         </form>
                     </li>
-                </ul>
+                
             </li>
 
 
-            

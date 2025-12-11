@@ -19,7 +19,7 @@
             </ul>
         </li>
         <li><a href="elements.html">Elements</a></li>
-        <li>@if (Route::has('login'))
+        @if (Route::has('login'))
             @auth
                 <li>
                     <a href="{{ url('/dashboard') }}"
@@ -46,6 +46,6 @@
                     </li>
                 @endif
             @endauth
-        @endif</li>
+        @endif
     </ul>
 </nav>
