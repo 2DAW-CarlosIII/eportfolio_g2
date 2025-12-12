@@ -27,20 +27,29 @@
                     </a>
                 </li>
                 <li>
-                    @include('landed.partials.dropdown-user')
+                    <a href="{{ route('logout') }}" class="button primary">
+                        log out
+                    </a>
+                </li>
+                <li>
+                <li>
+                    <a href="{{ route('profile.update') }}" class="button primary">
+                        Profile
+                    </a>
+                </li class="user-dropdown">
+                @include('landed.partials.dropdown-user')
 
                 </li>
             @else
                 <li>
-                    <a href="{{ route('login') }}"
-                       class="button primary">
+                    <a href="{{ route('login') }}" class="button primary">
                         Log in
                     </a>
                 </li>
+
                 @if (Route::has('register'))
                     <li>
-                        <a href="{{ route('register') }}"
-                           class="button primary">
+                        <a href="{{ route('register') }}" class="button primary">
                             Register
                         </a>
                     </li>
