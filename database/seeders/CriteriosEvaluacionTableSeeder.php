@@ -23,7 +23,7 @@ class CriteriosEvaluacionTableSeeder extends Seeder
             $c->orden = $criterio['orden'];
             $c->save();
         }
-        $this->command->info('Tabla catálogo inicializada con datos!');
+        $this->command->info('Tabla criterios evaluacion inicializada con datos!');
     }
     private static $criterios_evaluacion = [
             // Resultado de Aprendizaje 1: Seleccionar arquitecturas y tecnologías de programación web
