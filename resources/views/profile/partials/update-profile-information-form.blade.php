@@ -13,17 +13,20 @@
         @csrf
     </form>
 
-    @if ($User->avatar)
-        <img width="300" style="height:300px" src="{{ Storage::url($User->avatar) }}" alt="avatar"
-            class="img-thumbnail">
-    @else
-        <img width="300" style="height:300px" alt="Curriculum-vitae-warning-icon"
-            src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Curriculum-vitae-warning-icon.svg/256px-Curriculum-vitae-warning-icon.svg.png">
-    @endif
+
 
     <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6" enctype="multipart/form-data">
         @csrf
         @method('patch')
+
+
+        @if ($user->avatar)
+            <img width="300" style="height:300px" src="{{ Storage::url($user->avatar) }}" alt="avatar"
+                class="img-thumbnail">
+        @else
+            <img width="300" style="height:300px" alt="Curriculum-vitae-warning-icon"
+                src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Curriculum-vitae-warning-icon.svg/256px-Curriculum-vitae-warning-icon.svg.png">
+        @endif
 
         <div>
             <x-input-label for="name" :value="__('Name')" />
@@ -59,8 +62,8 @@
         </div>
 
         <div class="form-group">
-            <label for="imagen">imagen</label>
-            <input type="file" class="form-control" id="imagen" name="imagen" placeholder="imagen">
+            <label for="avatar">imagen</label>
+            <input type="file" class="form-control" id="avatar" name="avatar" placeholder="avatar">
         </div>
 
         <div class="flex items-center gap-4">

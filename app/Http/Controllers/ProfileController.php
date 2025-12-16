@@ -27,8 +27,8 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
-        $User=User::findOrFail($request->user());
+        $user=$request->user();
+        $user->fill($request->validated());
 
 
 
@@ -37,15 +37,14 @@ class ProfileController extends Controller
         }
 
         if ($request->hasFile('avatar')) {
-            $path = $request->file('avatar')->store('avatares', ['disk' => 'public']);
-            $datosEditados['avatar'] = $User->avatar = $path;
+            $path = $request->file('avatar')->store('avatares','public');
+            $user->avatar = $path;
         }
 
-        $request->user()->save();
-        $User->update($request->except('avatar'));
+        $user->save();
 
-        // return Redirect::route('profile.edit')->with('status', 'profile-updated')->with($User);
-        return redirect()->action([self::class, 'edit'], [$User->request]);
+        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+
 
     }
 
