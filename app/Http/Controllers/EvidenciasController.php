@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Evidencias;
+use Database\Seeders\EvidenciasTableSeeder;
 use Illuminate\Http\Request;
 
 class EvidenciasController extends Controller
@@ -35,7 +36,20 @@ class EvidenciasController extends Controller
 
     public function postCreate(Request $request)
     {
-        $evidencias = Evidencias::create($request->all());
+        $evidencias = new Evidencias();
+        $evidencias->tarea_id = $request->tarea_id;
+        $evidencias->estudiante_id = $request->estudiante_id;
+        if ($request->hasFile('miArchivo')) {
+            $path = $request->file('miArchivo')->store('miArchivo', ['disk' => 'public']);
+            $evidencias->url = $path;
+        }
+        else {
+            $evidencias->url = 'no-file-uploaded';
+        }
+        $evidencias->descripcion = $request->descripcion;
+        $evidencias->estado_validacion = $request->estado_validacion;
+        $evidencias->save();
+
         return redirect()->action([self::class, 'getShow'], ['id' => $evidencias->id]);
     }
 
@@ -45,7 +59,15 @@ class EvidenciasController extends Controller
     {
         $evidencias = Evidencias::findOrFail($id);
 
-        $evidencias->update($request->all());
+        if ($request->hasFile('miArchivo')) {
+            $path = $request->file('miArchivo')->store('miArchivo', ['disk' => 'public']);
+            $evidencias->url = $path;
+        }
+        $evidencias->tarea_id = $request->tarea_id;
+        $evidencias->estudiante_id = $request->estudiante_id;
+        $evidencias->descripcion = $request->descripcion;
+        $evidencias->estado_validacion = $request->estado_validacion;
+        $evidencias->save();
         return redirect()->action([self::class, 'getShow'], ['id' => $evidencias->id]);
     }
 }
