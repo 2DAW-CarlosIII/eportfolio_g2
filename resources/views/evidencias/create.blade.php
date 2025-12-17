@@ -16,8 +16,6 @@
                     <form action="{{ action([App\Http\Controllers\EvidenciasController::class, 'postCreate']) }}" method="POST">
 
                         @csrf
-
-
                         <div class="form-group">
                             <label for="estudiante_id">estudiante_id</label>
                             <input type="text" name="estudiante_id" id="estudiante_id" class="form-control">
@@ -25,10 +23,6 @@
                         <div class="form-group">
                             <label for="tarea_id">tarea_id</label>
                             <input type="text" name="tarea_id" id="tarea_id" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label for="url">url</label>
-                            <input type="text" name="url" id="url" class="form-control">
                         </div>
                          <div class="form-group">
                             <label for="descripcion">Descripcion</label>
@@ -38,7 +32,15 @@
                             <label for="estado_validacion">estado_validacion</label>
                             <input type="text" name="estado_validacion" id="estado_validacion" class="form-control">
                         </div>
-
+                        <div class="form-group">
+                            <label for="url">url</label>
+                            <input type="text" name="url" id="url" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="archivo">Selecciona un documento:</label>
+                            <input type="file" id="archivo" name="miArchivo" required>
+                            <br><br>
+                        </div>
                         <div class="form-group text-center">
                             <button type="submit" class="btn btn-primary" style="padding:8px 100px;margin-top:25px;">
                                 Añadir evidencia de aprendizaje
