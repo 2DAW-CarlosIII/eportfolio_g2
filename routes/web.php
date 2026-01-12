@@ -18,12 +18,7 @@ Route::get('/dashboard', function () {
 Route::get('/', [WelcomeController::class, 'getHome'])->name('home');
 
 // ----------------------------------------
-Route::get('login', function () {
-    return view('auth.login');
-});
-Route::get('logout', function () {
-    return "Logout usuario";
-});
+
 
 
 // ----------------------------------------
