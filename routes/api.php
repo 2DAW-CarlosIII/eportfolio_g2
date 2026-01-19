@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\API\AsignacionRevisionController;
 use App\Http\Controllers\API\ComentarioController;
-use App\Http\Controllers\CiclosFormativosController;
+use App\Http\Controllers\API\CriterioTareaController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Tqdev\PhpCrudApi\Config\Config;
@@ -16,6 +16,7 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 Route::prefix('v1')->group(function () {
     Route::apiResource('comentarios', ComentarioController::class);
     Route::apiResource('asignaciones_revision', AsignacionRevisionController::class);
+    Route::apiResource('criterios_tareas', CriterioTareaController::class);
 
 });
 
