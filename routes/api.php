@@ -14,8 +14,13 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 });
 
 Route::prefix('v1')->group(function () {
-    Route::apiResource('comentarios', ComentarioController::class);
-    Route::apiResource('asignaciones_revision', AsignacionRevisionController::class);
+    Route::prefix('evidencias/{evidencia_id}')->group(function () {
+        
+          Route::apiResource('comentarios', ComentarioController::class);
+          Route::apiResource('asignaciones-revision', AsignacionRevisionController::class);
+    });
+    Route::apiResource('users/{id}/asignacion-revision', CriterioTareaController::class);
+
     Route::apiResource('criterios_tareas', CriterioTareaController::class);
 
 });

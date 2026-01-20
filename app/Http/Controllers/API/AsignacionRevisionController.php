@@ -5,6 +5,8 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\AsignacionRevisionResource;
 use App\Models\AsignacionRevision;
+use App\Models\Evidencias;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class AsignacionRevisionController extends Controller
@@ -12,15 +14,16 @@ class AsignacionRevisionController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(Request $request,Evidencias $evidencias,User $usuario)
     {
          $query = AsignacionRevision::query();
             if ($query) {
                 $query->orWhere('id', 'like', '%' . $request->q . '%');
             }
-
+            
             return AsignacionRevisionResource::collection(
-            AsignacionRevision::orderBy($request->_sort ?? 'id', $request->_order ?? 'asc')
+            AsignacionRevision::where('evidencia_id',$evidencias->evidencia_id)
+            ->orderBy($request->_sort ?? 'id', $request->_order ?? 'asc')
             ->paginate($request->perPage));
     }
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ComentarioResource;
 use App\Models\Comentario;
+use App\Models\Evidencias;
 use Illuminate\Http\Request;
 
 class ComentarioController extends Controller
@@ -12,7 +13,7 @@ class ComentarioController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(Request $request,Evidencias $evidencias)
     {
             $query = Comentario::query();
             if ($query) {
@@ -20,7 +21,8 @@ class ComentarioController extends Controller
             }
 
             return ComentarioResource::collection(
-            Comentario::orderBy($request->_sort ?? 'id', $request->_order ?? 'asc')
+            Comentario::where('evidencia_id',$evidencias->evidencia_id)
+            ->orderBy($request->_sort ?? 'id', $request->_order ?? 'asc')
             ->paginate($request->perPage));
     }
 
