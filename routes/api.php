@@ -9,7 +9,7 @@ use Tqdev\PhpCrudApi\Config\Config;
 use Psr\Http\Message\ServerRequestInterface;
 use Tqdev\PhpCrudApi\Api;
 
-Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
+Route::middleware(['auth:sanctum'])->get('/user',function (Request $request) {
     return $request->user();
 });
 
@@ -19,7 +19,7 @@ Route::prefix('v1')->group(function () {
           Route::apiResource('comentarios', ComentarioController::class);
           Route::apiResource('asignaciones-revision', AsignacionRevisionController::class);
     });
-    Route::get('users/{id}/asignacion-revision', [CriterioTareaController::class]);
+    Route::get('users/{id}/asignaciones-revision', [AsignacionRevisionController::class,'getShow']);
 
     Route::apiResource('criterios_tareas', CriterioTareaController::class);
 

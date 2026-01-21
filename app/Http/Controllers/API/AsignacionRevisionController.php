@@ -14,13 +14,13 @@ class AsignacionRevisionController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request,Evidencias $evidencias,User $usuario)
+    public function index(Request $request,Evidencias $evidencias)
     {
          $query = AsignacionRevision::query();
             if ($query) {
                 $query->orWhere('id', 'like', '%' . $request->q . '%');
             }
-            
+
             return AsignacionRevisionResource::collection(
             AsignacionRevision::where('evidencia_id',$evidencias->evidencia_id)
             ->orderBy($request->_sort ?? 'id', $request->_order ?? 'asc')
@@ -42,8 +42,15 @@ class AsignacionRevisionController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(AsignacionRevision $asignacionRevision)
+    public function show(AsignacionRevision $asignacionRevision,User $usuario)
     {
+         return new AsignacionRevisionResource($asignacionRevision);
+
+    }
+
+    public function getShow(AsignacionRevision $asignacionRevision,User $usuario)
+    {
+        $asignacionRevision = AsignacionRevision::where('revisor_id',$usuario->id)->get();
          return new AsignacionRevisionResource($asignacionRevision);
 
     }

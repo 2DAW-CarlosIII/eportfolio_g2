@@ -69,4 +69,5 @@ class CriterioTareaController extends Controller
             ], 400);
         }
     }
+    
 }
