@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\AsignacionRevisionResource;
 use App\Models\AsignacionRevision;
-use App\Models\Evidencias;
+use App\Models\Evidencia;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -14,15 +14,15 @@ class AsignacionRevisionController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request,Evidencias $evidencia)
+    public function index(Request $request,Evidencia $evidencia)
     {
-         $query = AsignacionRevision::query();
+         $query = AsignacionRevision::where('evidencia_id',$evidencia->id);
             if ($query) {
-                $query->orWhere('id', 'like', '%' . $request->q . '%');
+                $query->orWhere('revisor_id', 'like', '%' . $request->q . '%');
             }
 
             return AsignacionRevisionResource::collection(
-            AsignacionRevision::where('evidencia_id',$evidencia->evidencia_id)
+            AsignacionRevision::where('evidencia_id',$evidencia->id)
             ->orderBy($request->sort ?? 'id', $request->order ?? 'asc')
             ->paginate($request->per_page));
     }
@@ -30,7 +30,7 @@ class AsignacionRevisionController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request,Evidencias $evidencia,AsignacionRevision $asignacionRevision)
+    public function store(Request $request,Evidencia $evidencia,AsignacionRevision $asignacionRevision)
     {
         $asignacionRevisionData = json_decode($request->getContent(), true);
         $asignacionRevision = AsignacionRevision::create($asignacionRevisionData);
@@ -41,17 +41,29 @@ class AsignacionRevisionController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Evidencias $evidencia,AsignacionRevision $asignacionRevision)
+    public function show(Evidencia $evidencia,AsignacionRevision $asignacionRevision)
     {
          return new AsignacionRevisionResource($asignacionRevision);
 
     }
 
-    public function getShow(AsignacionRevision $asignacionRevision,User $usuario)
+    public function getShow(Request $request, AsignacionRevision $asignacionRevision,  $id)
     {
-        $asignacionRevision = AsignacionRevision::where('revisor_id',$usuario->id)->get();
-         return new AsignacionRevisionResource($asignacionRevision);
 
+        $query = AsignacionRevision::where('revisor_id', $id);
+        if($request->estado_asignacion){
+            $asignaciones = $query->where('estado', $request->estado_asignacion)
+                ->orderBy($request->sort ?? 'id', $request->order ?? 'asc')
+                ->paginate($request->per_page);
+
+        }else{
+             $asignaciones = $query
+            ->orderBy($request->sort ?? 'id', $request->order ?? 'asc')
+            ->paginate($request->per_page);
+
+        }
+
+        return AsignacionRevisionResource::collection($asignaciones);
     }
 
     /**
@@ -68,7 +80,7 @@ class AsignacionRevisionController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Evidencias $evidencia,AsignacionRevision $asignacionRevision)
+    public function destroy(Evidencia $evidencia,AsignacionRevision $asignacionRevision)
     {
         try {
             $asignacionRevision->delete();
