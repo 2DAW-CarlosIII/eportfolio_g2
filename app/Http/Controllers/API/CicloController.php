@@ -13,15 +13,12 @@ class CicloController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(Request $request,FamiliaProfesional $familiaProfesional)
     {
-        $query = CicloFormativo::query();
-        if ($query) {
-            $query->orWhere('nombre', 'like', '%' . $request->q . '%');
-        }
 
         return CicloResource::collection(
-            CicloFormativo::orderBy($request->_sort ?? 'id', $request->_order ?? 'asc')
+            CicloFormativo::where('familia_profesional_id',$familiaProfesional->id)
+            ->orderBy($request->_sort ?? 'id', $request->_order ?? 'asc')
                 ->paginate($request->perPage)
         );
     }
@@ -29,11 +26,11 @@ class CicloController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, $parent_id)
+    public function store(Request $request, FamiliaProfesional $familiaProfesional)
     {
         $cicloData = json_decode($request->getContent(), true);
 
-        $cicloData['familia_profesional_id'] = $parent_id;
+        $cicloData['familia_profesional_id'] = $familiaProfesional->id;
 
         $ciclo = CicloFormativo::create($cicloData);
 
@@ -43,28 +40,28 @@ class CicloController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($parent_id, FamiliaProfesional $familiaProfesional, CicloFormativo $id)
+    public function show(FamiliaProfesional $familiaProfesional, CicloFormativo $ciclo)
     {
-        return new CicloResource($id);
+        return new CicloResource($ciclo);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $parent_id, CicloFormativo $id)
+    public function update(Request $request, FamiliaProfesional $familiaProfesional, CicloFormativo $ciclo)
     {
         $cicloData = json_decode($request->getContent(), true);
-        $id->update($cicloData);
-        return new CicloResource($id);
+        $ciclo->update($cicloData);
+        return new CicloResource($ciclo);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($parent_id, CicloFormativo $id)
+    public function destroy(FamiliaProfesional $familiaProfesional, CicloFormativo $ciclo)
     {
         try {
-            $id->delete();
+            $ciclo->delete();
             return response()->json(null, 204);
         } catch (\Exception $e) {
             return response()->json([

@@ -39,8 +39,8 @@ Route::prefix('v1')->group(function () {
 
     Route::apiResource('familias-profesionales.ciclos-formativos', CicloController::class)
         ->parameters([
-            'familias-profesionales' => 'parent_id',
-            'ciclos-formativos' => 'id'
+            'familias-profesionales' => 'familiaProfesional',
+            'ciclos-formativos' => 'ciclo'
         ]);
 
     Route::apiResource('ciclos-formativos.modulos-formativos', ModuloFormativoController::class)
@@ -65,9 +65,13 @@ Route::prefix('v1')->group(function () {
         'criterios_tareas' => 'criterioTarea'
     ]);
 
-    Route::apiResource('tareas', TareaController::class)->parameters([
-        'tareas' => 'tarea'
-    ]);
+
+    Route::post('tareas',[TareaController::class,'store']);
+    Route::get('criterios-evaluacion/{criterioId}/tareas',[TareaController::class,'index']);
+    Route::get('resultados-aprendizaje/{resultadoId}/tareas',[TareaController::class,'getTareasPorResultado']);
+    Route::get('criterios-evaluacion/{criterioId}/tareas/{id}',[TareaController::class,'show']);
+    Route::put('tareas/{id}',[TareaController::class,'update']);
+    Route::delete('tareas/{id}',[TareaController::class,'destroy']);
 
     Route::apiResource('tareas.evidencias', EvidenciasController::class)
     ->parameters([
@@ -89,13 +93,15 @@ Route::prefix('v1')->group(function () {
     Route::apiResource('matriculas', MatriculaController::class);
 
     Route::apiResource('modulos-formativos.resultados-aprendizaje',ResultadoAprendizajeController::class)
-        ->parameters(['modulos-formativos' => 'parent_id', 'resultados-aprendizaje' => 'id'
+        ->parameters([
+            'modulos-formativos' => 'parent_id',
+            'resultados-aprendizaje' => 'id'
     ]);
 
     Route::apiResource('resultados-aprendizaje.criterios-evaluacion', CriterioEvaluacionController::class)
         ->parameters([
-         'resultados-aprendizaje' => 'parent_id',
-         'criterios-evaluacion' => 'id'
+         'resultados-aprendizaje' => 'resultadoAprendizaje',
+         'criterios-evaluacion' => 'criterioEvaluacion'
     ]);
 
     Route::apiResource('modulos-formativos.matriculas', MatriculaController::class)

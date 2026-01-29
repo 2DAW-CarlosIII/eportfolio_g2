@@ -8,7 +8,7 @@ class CriterioEvaluacion extends Model
 {
     //
     protected $table = 'criterios_evaluacion';
-    protected $fillable = ['id', 'codigo', 'descripcion', 'peso_porcentaje', 'orden'];
+    protected $fillable = ['id','resultado_aprendizaje_id', 'codigo', 'descripcion', 'peso_porcentaje', 'orden'];
     public static $filterColumns = [
         'id',
         'codigo',
