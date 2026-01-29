@@ -9,7 +9,7 @@ class ResultadoAprendizaje extends Model
 {
     protected $table = 'resultados_aprendizaje';
 
-    protected $fillable = ['id', 'codigo', 'descripción', 'orden'];
+    protected $fillable = ['id', 'codigo', 'descripcion', 'orden'];
 
     public static $filterColumns = [
         'id',

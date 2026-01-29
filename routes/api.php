@@ -94,8 +94,8 @@ Route::prefix('v1')->group(function () {
 
     Route::apiResource('modulos-formativos.resultados-aprendizaje',ResultadoAprendizajeController::class)
         ->parameters([
-            'modulos-formativos' => 'parent_id',
-            'resultados-aprendizaje' => 'id'
+            'modulos-formativos' => 'moduloFormativo',
+            'resultados-aprendizaje' => 'resultadoAprendizaje'
     ]);
 
     Route::apiResource('resultados-aprendizaje.criterios-evaluacion', CriterioEvaluacionController::class)
