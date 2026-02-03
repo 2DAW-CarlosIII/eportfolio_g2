@@ -12,11 +12,11 @@ class Tarea extends Model
     protected $table = 'tareas';
 
     protected $fillable = [
-        'criterio_evaluacion_id',
+        'criterios_evaluacion_id',
         'fecha_apertura',
         'fecha_cierre',
         'activo',
-        'enunciado'
+        'observaciones'
     ];
 
     public function criterioEvaluacion()

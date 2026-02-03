@@ -16,11 +16,6 @@ class AsignacionRevisionController extends Controller
      */
     public function index(Request $request,Evidencia $evidencia)
     {
-         $query = AsignacionRevision::where('evidencia_id',$evidencia->id);
-            if ($query) {
-                $query->orWhere('revisor_id', 'like', '%' . $request->q . '%');
-            }
-
             return AsignacionRevisionResource::collection(
             AsignacionRevision::where('evidencia_id',$evidencia->id)
             ->orderBy($request->sort ?? 'id', $request->order ?? 'asc')
@@ -73,7 +68,7 @@ class AsignacionRevisionController extends Controller
     {
         $asignacionData = json_decode($request->getContent(), true);
         $asignacionRevision->update($asignacionData);
- 
+
         return new AsignacionRevisionResource($asignacionRevision);
     }
 

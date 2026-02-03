@@ -16,11 +16,6 @@ class FamiliaProfesionalController extends Controller
      */
     public function index(Request $request)
     {
-        $query = FamiliaProfesional::query();
-        if($query) {
-            $query->orWhere('nombre', 'like', '%' .$request->q . '%');
-        }
-
         return FamiliaProfesionalResource::collection(
             FamiliaProfesional::orderBy($request->sort ?? 'id', $request->order ?? 'asc')
                 ->paginate($request->per_page)

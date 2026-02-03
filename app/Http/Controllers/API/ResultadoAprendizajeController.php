@@ -13,26 +13,24 @@ class ResultadoAprendizajeController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(Request $request, ModuloFormativo $moduloFormativo)
     {
-        $query = ResultadoAprendizaje::query();
-        if($request) {
-            $query->orWhere('id', 'like', '%' .$request->q . '%');
-        }
+
         return ResultadoAprendizajeResource::collection(
-            $query->orderBy($request->_sort ?? 'id', $request->_order ?? 'asc')
+            ResultadoAprendizaje::where('modulo_formativo_id', $moduloFormativo->id)
+            ->orderBy($request->_sort ?? 'id', $request->_order ?? 'asc')
             ->paginate($request->perPage));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, ModuloFormativo $parent_id)
+    public function store(Request $request, ModuloFormativo $moduloFormativo)
     {
-        $resultado = $request->all();
-
-        $resultado['modulo_formativo_id'] = $parent_id->id;
-        $resultadoAprendizaje = ResultadoAprendizaje::create($resultado);
+        $resultadoData = json_decode($request->getContent(), true);
+        
+        $resultadoData['modulo_formativo_id'] = $moduloFormativo->id;
+        $resultadoAprendizaje = ResultadoAprendizaje::create($resultadoData);
 
         return new ResultadoAprendizajeResource($resultadoAprendizaje);
     }
@@ -40,29 +38,29 @@ class ResultadoAprendizajeController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(ModuloFormativo $parent_id, ResultadoAprendizaje $id)
+    public function show(ModuloFormativo $moduloFormativo, ResultadoAprendizaje $resultadoAprendizaje)
     {
-        return new ResultadoAprendizajeResource($id);
+        return new ResultadoAprendizajeResource($resultadoAprendizaje);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, ModuloFormativo $parent_id, ResultadoAprendizaje $id)
+    public function update(Request $request, ModuloFormativo $moduloFormativo, ResultadoAprendizaje $resultadoAprendizaje)
     {
         $resultadoAprendizajeData = json_decode($request->getContent(), true);
-        $id->update($resultadoAprendizajeData);
+        $resultadoAprendizaje->update($resultadoAprendizajeData);
 
-        return new ResultadoAprendizajeResource($id);
+        return new ResultadoAprendizajeResource($resultadoAprendizaje);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ModuloFormativo $parent_id, ResultadoAprendizaje $id)
+    public function destroy(ModuloFormativo $moduloFormativo, ResultadoAprendizaje $resultadoAprendizaje)
     {
         try {
-            $id->delete();
+            $resultadoAprendizaje->delete();
             return response()->json(null, 204);
         } catch (\Exception $e) {
             return response()->json([
