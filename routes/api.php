@@ -18,6 +18,7 @@ use App\Http\Controllers\API\EvaluacionController;
 use App\Http\Controllers\API\EvaluacionesEvidenciasController;
 use App\Http\Controllers\API\MatriculaController;
 use App\Http\Controllers\API\ResultadoAprendizajeController;
+use App\Http\Controllers\API\RolController;
 use App\Http\Controllers\CriteriosEvaluacionController;
 
 
@@ -100,6 +101,10 @@ Route::prefix('v1')->group(function () {
 
     Route::apiResource('modulos-formativos.matriculas', MatriculaController::class)
         ->parameters(['modulos-formativos' => 'parent_id', 'matriculas' => 'id'
+    ]);
+
+    Route::apiResource('roles', RolController::class)->parameters([
+        'roles' => 'rol'
     ]);
 
 });

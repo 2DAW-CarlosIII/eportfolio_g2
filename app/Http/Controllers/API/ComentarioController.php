@@ -16,11 +16,7 @@ class ComentarioController extends Controller
      */
     public function index(Request $request,Evidencia $evidencia,Comentario $comentario)
     {
-            $query = Comentario::where('evidencia_id', $evidencia->id);
-            if ($query) {
-                $query->orWhere('id', 'like', '%' . $request->q . '%');
-            }
-
+      
             return ComentarioResource::collection(
             Comentario::where('evidencia_id',$evidencia->id)
             ->orderBy($request->_sort ?? 'id', $request->_order ?? 'asc')

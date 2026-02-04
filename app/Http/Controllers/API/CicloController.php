@@ -21,6 +21,7 @@ class CicloController extends Controller
         }
 
         return CicloResource::collection(
+            
             CicloFormativo::orderBy($request->_sort ?? 'id', $request->_order ?? 'asc')
                 ->paginate($request->perPage)
         );
