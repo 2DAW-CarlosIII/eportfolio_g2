@@ -2,18 +2,24 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class FamiliaProfesional extends Model
 {
         protected $table = 'familias_profesionales';
-
-        protected $fillable = ['codigo', 'nombre', 'imagen', 'descripcion'];
+        use HasFactory;
+        protected $fillable = [ 'nombre','codigo','descripcion'];
 
         public static $filterColumns = [
-            'codigo',
             'nombre',
-            'imagen',
+            'codigo',
             'descripcion'
         ];
+        public function cicloFormativo(): BelongsTo
+        {
+            return $this->belongsTo(CicloFormativo::class);
+        }
 }
