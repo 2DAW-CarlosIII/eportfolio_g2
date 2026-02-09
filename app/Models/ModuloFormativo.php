@@ -9,7 +9,7 @@ class ModuloFormativo extends Model
     protected $table = 'modulos_formativos';
 
     protected $fillable = [
-        'id',
+       
         'ciclo_formativo_id',
         'nombre',
         'codigo',

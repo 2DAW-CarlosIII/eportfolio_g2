@@ -12,7 +12,6 @@ class Tarea extends Model
     protected $table = 'tareas';
 
     protected $fillable = [
-        'criterios_evaluacion_id',
         'fecha_apertura',
         'fecha_cierre',
         'activo',

@@ -9,16 +9,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class EvaluacionesEvidencia extends Model
+class EvaluacionEvidencia extends Model
 {
     use HasFactory;
 
+    protected $table='evaluaciones_evidencias';
     protected $fillable = [
-        'evaluacion_id',
         'evidencia_id',
-        'url',
-        'descripcion',
-        'estado_validacion',
+        'user_id',
+        'puntuacion',
+        'estado',
+        'observaciones',
     ];
 
 
