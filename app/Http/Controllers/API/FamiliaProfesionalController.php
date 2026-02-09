@@ -17,7 +17,10 @@ class FamiliaProfesionalController extends Controller
     public function index(Request $request)
     {
         return FamiliaProfesionalResource::collection(
-            FamiliaProfesional::orderBy($request->sort ?? 'id', $request->order ?? 'asc')
+            FamiliaProfesional::when($request->search, function ($query) use ($request) {
+                $query->where('nombre', 'like', '%' . $request->search . '%');
+            })
+            ->orderBy($request->sort ?? 'id', $request->order ?? 'asc')
                 ->paginate($request->per_page)
         );
     }
@@ -27,7 +30,11 @@ class FamiliaProfesionalController extends Controller
      */
     public function store(Request $request)
     {
-        $familiaProfesional = json_decode($request->getContent(), true);
+        $familiaProfesional =$request->validate([
+            'nombre' => 'required|string|max:255',
+            'codigo' => 'required|string|max:255|unique:familias_profesionales,codigo',
+            'descripcion' => 'nullable|string',
+        ]);
 
         $familiaProfesional = FamiliaProfesional::create($familiaProfesional);
 
@@ -60,7 +67,9 @@ class FamiliaProfesionalController extends Controller
     {
          try {
             $familiaProfesional->delete();
-            return response()->json(null, 204);
+            return response()->json([
+                 'message' => 'FamiliaProfesional eliminado correctamente'
+            ], 200);
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Error: ' . $e->getMessage()
