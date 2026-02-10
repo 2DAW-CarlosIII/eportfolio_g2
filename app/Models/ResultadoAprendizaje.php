@@ -10,7 +10,7 @@ class ResultadoAprendizaje extends Model
 {
     use HasFactory;
     protected $table = 'resultados_aprendizaje';
-
+    protected $perPage=10;
     protected $fillable = ['modulo_formativo_id', 'codigo', 'descripcion','peso_porcentaje', 'orden'];
 
     public static $filterColumns = [

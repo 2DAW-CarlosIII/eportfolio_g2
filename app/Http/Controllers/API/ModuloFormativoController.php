@@ -19,10 +19,11 @@ class ModuloFormativoController extends Controller
 
         return  ModuloFormativoResource::collection(
             ModuloFormativo::where('ciclo_formativo_id', $cicloFormativo->id)
-            ->orderBy('nombre', 'asc')
+            ->orderBy('id', 'asc')
                 ->paginate($request->perPage)
         );
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -66,7 +67,9 @@ class ModuloFormativoController extends Controller
     {
         try {
             $moduloFormativo->delete();
-            return response()->json(null, 204);
+            return response()->json([
+                'message' => 'ModuloFormativo eliminado correctamente'
+            ], 200);
         } catch (\Exception $e) {
             return response()->json(['message' => $e->getMessage()], 400);
         }

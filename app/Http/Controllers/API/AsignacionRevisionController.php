@@ -79,7 +79,9 @@ class AsignacionRevisionController extends Controller
     {
         try {
             $asignacionRevision->delete();
-            return response()->json(null, 204);
+            return response()->json([
+                'message' => 'AsignacionRevision eliminado correctamente'
+            ], 200);
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Error: ' . $e->getMessage()

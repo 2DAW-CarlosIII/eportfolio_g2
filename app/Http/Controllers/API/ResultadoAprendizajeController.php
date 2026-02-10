@@ -13,11 +13,14 @@ class ResultadoAprendizajeController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request, ModuloFormativo $moduloFormativo)
+    public function index(Request $request, ModuloFormativo $moduloFormativo,ResultadoAprendizaje $resultadoAprendizaje)
     {
 
         return ResultadoAprendizajeResource::collection(
-            ResultadoAprendizaje::where('modulo_formativo_id', $moduloFormativo->id)
+            ResultadoAprendizaje::when($request->search, function ($query) use ($request) {
+                $query->where('id', 'like', '%' . $request->search . '%');
+            })
+            ->where('modulo_formativo_id', $moduloFormativo->id)
             ->orderBy($request->_sort ?? 'id', $request->_order ?? 'asc')
             ->paginate($request->perPage));
     }
@@ -27,8 +30,13 @@ class ResultadoAprendizajeController extends Controller
      */
     public function store(Request $request, ModuloFormativo $moduloFormativo)
     {
-        $resultadoData = json_decode($request->getContent(), true);
-        
+        $resultadoData = $request->validate([
+            'codigo' => 'required',
+            'descripcion' => 'required',
+            'peso_porcentaje'=>'required',
+            'orden'=>'required'
+        ]);;
+
         $resultadoData['modulo_formativo_id'] = $moduloFormativo->id;
         $resultadoAprendizaje = ResultadoAprendizaje::create($resultadoData);
 
@@ -61,7 +69,9 @@ class ResultadoAprendizajeController extends Controller
     {
         try {
             $resultadoAprendizaje->delete();
-            return response()->json(null, 204);
+            return response()->json([
+                'message' => 'ResultadoAprendizaje eliminado correctamente'
+            ], 200);
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Error: ' . $e->getMessage()

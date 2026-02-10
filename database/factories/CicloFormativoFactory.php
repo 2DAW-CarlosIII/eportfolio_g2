@@ -26,3 +26,4 @@ class CicloFormativoFactory extends Factory
         ];
     }
 }
+
