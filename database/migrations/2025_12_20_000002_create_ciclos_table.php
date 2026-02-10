@@ -20,7 +20,7 @@ return new class extends Migration
             $table->foreign('familia_profesional_id')->references('id')->on('familias_profesionales')->onDelete('cascade');
             $table->string('nombre', 255);
             $table->string('codigo', 50);
-            $table->enum('grado', ['G.M.', 'G.S.', 'C.E. (G.M.)', 'C.E. (G.S.)', 'BÁSICA']);
+            $table->enum('grado', ['G.M.', 'G.S.', 'C.E. (G.M.)', 'C.E. (G.S.)', 'BÁSICA', 'basico', 'medio', 'superior']);
             $table->string('descripcion')->nullable();
             $table->timestamps();
 

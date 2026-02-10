@@ -2,14 +2,19 @@
 
 namespace App\Models;
 
+use Database\Factories\ModuloFormativoFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class ModuloFormativo extends Model
 {
+    use HasFactory;
+
+    protected $perPage = 10;
+
     protected $table = 'modulos_formativos';
 
     protected $fillable = [
-        'id',
         'ciclo_formativo_id',
         'nombre',
         'codigo',
@@ -21,7 +26,6 @@ class ModuloFormativo extends Model
     ];
 
     public static $filterColumns = [
-        'id',
         'ciclo_formativo_id',
         'nombre',
         'codigo',
@@ -31,4 +35,5 @@ class ModuloFormativo extends Model
         'docente_id',
         'descripcion'
     ];
+
 }

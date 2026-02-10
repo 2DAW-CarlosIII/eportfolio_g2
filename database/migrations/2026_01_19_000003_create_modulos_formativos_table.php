@@ -23,7 +23,7 @@ return new class extends Migration
             $table->integer('horas_totales');
             $table->string('curso_escolar');
             $table->string('centro');
-            $table->unsignedBigInteger('docente_id');
+            $table->unsignedBigInteger('docente_id')->nullable();
             $table->foreign('docente_id')->references('id')->on('users')->onDelete('cascade');
             $table->text('descripcion')->nullable();
         });

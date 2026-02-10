@@ -2,10 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class CicloFormativo extends Model
 {
+    use HasFactory;
+
+    protected $perPage = 10;
     protected $table = 'ciclos_formativos';
 
     protected $fillable = [
@@ -23,5 +27,4 @@ class CicloFormativo extends Model
         'grado',
         'descripcion'
     ];
-
 }

@@ -52,4 +52,9 @@ class User extends Authenticatable
         $this->access_token = $token;
         return $this;
     }
+
+    public function esAdministrador()
+    {
+        return $this->email === config('app.admin.email');
+    }
 }
