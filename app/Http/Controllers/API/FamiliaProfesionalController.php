@@ -32,6 +32,11 @@ class FamiliaProfesionalController extends Controller
      */
     public function store(Request $request)
     {
+        $validatedData = $request->validate([
+            'nombre' => ['required', 'string'],
+            'codigo' => ['required', 'string', 'unique:familias_profesionales,codigo'],
+        ]);
+
         $familiaProfesional = json_decode($request->getContent(), true);
 
         $familiaProfesional = FamiliaProfesional::create($familiaProfesional);
@@ -65,7 +70,7 @@ class FamiliaProfesionalController extends Controller
     {
          try {
             $familiaProfesional->delete();
-            return response()->json(null, 204);
+            return response()->json(['message' => 'FamiliaProfesional eliminado correctamente'], 200);
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Error: ' . $e->getMessage()

@@ -7,6 +7,7 @@ use App\Http\Resources\ModuloFormativoResource;
 use App\Models\CicloFormativo;
 use App\Models\ModuloFormativo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ModuloFormativoController extends Controller
 {
@@ -37,11 +38,21 @@ class ModuloFormativoController extends Controller
      */
     public function store(Request $request, $parent_id)
     {
-        $data = $request->all();
+        $validated = $request->all();
 
-        $data['ciclo_formativo_id'] = $parent_id;
+        $validated = $request->validate([
+            'nombre' => ['required', 'string'],
+            'codigo' => ['required', 'string'],
+            'horas_totales' => ['required', 'integer'],
+            'curso_escolar' => ['required', 'string'],
+            'centro' => ['required', 'string'],
 
-        $moduloFormativo = ModuloFormativo::create($data);
+        ]);
+
+        $$validated['ciclo_formativo_id'] = $parent_id;
+        $validated['docente_id'] = Auth::id();
+
+        $moduloFormativo = ModuloFormativo::create($validated);
 
         return new ModuloFormativoResource($moduloFormativo);
     }
@@ -74,7 +85,7 @@ class ModuloFormativoController extends Controller
     {
         try {
             $id->delete();
-            return response()->json(null, 204);
+            return response()->json(['message' => 'ModuloFormativo eliminado correctamente'], 200);
         } catch (\Exception $e) {
             return response()->json(['message' => $e->getMessage()], 400);
         }

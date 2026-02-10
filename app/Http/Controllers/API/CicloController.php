@@ -7,6 +7,7 @@ use App\Http\Resources\CicloResource;
 use App\Models\CicloFormativo;
 use App\Models\FamiliaProfesional;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class CicloController extends Controller
 {
@@ -31,6 +32,14 @@ class CicloController extends Controller
      */
     public function store(Request $request, $parent_id)
     {
+        Gate::authorize('create', CicloFormativo::class);
+
+        $validatedData = $request->validate([
+            'nombre' => ['required', 'string'],
+            'codigo' => ['required', 'string', 'unique:ciclos_formativos,codigo'],
+            'grado' => ['required', 'in:basico,medio,superior'],
+        ]);
+
         $cicloData = json_decode($request->getContent(), true);
 
         $cicloData['familia_profesional_id'] = $parent_id;
@@ -53,6 +62,7 @@ class CicloController extends Controller
      */
     public function update(Request $request, $parent_id, CicloFormativo $id)
     {
+        Gate::authorize('update', $id);
         $cicloData = json_decode($request->getContent(), true);
         $id->update($cicloData);
         return new CicloResource($id);
@@ -63,9 +73,10 @@ class CicloController extends Controller
      */
     public function destroy($parent_id, CicloFormativo $id)
     {
+        Gate::authorize('delete', $id);
         try {
             $id->delete();
-            return response()->json(null, 204);
+            return response()->json(['message' => 'CicloFormativo eliminado correctamente'], 200);
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Error: ' . $e->getMessage()
