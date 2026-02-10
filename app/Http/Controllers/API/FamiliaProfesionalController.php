@@ -8,7 +8,6 @@ use App\Http\Resources\FamiliaProfesionalResource;
 use App\Models\CicloFormativo;
 use App\Models\FamiliaProfesional;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
 
 class FamiliaProfesionalController extends Controller
 {
@@ -23,8 +22,11 @@ class FamiliaProfesionalController extends Controller
         }
 
         return FamiliaProfesionalResource::collection(
-            $query->orderBy($query->sort ?? 'id', $query->order ?? 'asc')
-                ->paginate($query->per_page)
+            $query->when($request->search, function ($query) use ($request) {
+                $query->where('nombre', 'like', '%' .$request->search . '%');
+            })
+            ->orderBy($request->sort ?? 'id', $request->order ?? 'asc')
+                ->paginate($request->per_page ?? 15)
         );
     }
 
@@ -33,8 +35,14 @@ class FamiliaProfesionalController extends Controller
      */
     public function store(Request $request)
     {
-        $familiaProfesional = json_decode($request->getContent(), true);
-        $familiaProfesional = FamiliaProfesional::create($familiaProfesional);
+        $familiaProfesionalData = $request->validate([
+        'nombre' => 'required|string|max:255',
+        'codigo' => 'required|string|unique:familias_profesionales,codigo',
+        'descripcion' => 'nullable|string'
+
+    ]);
+        //$familiaProfesional = json_decode($request->getContent(), true);
+        $familiaProfesional = FamiliaProfesional::create($familiaProfesionalData);
 
         return new FamiliaProfesionalResource($familiaProfesional);
     }

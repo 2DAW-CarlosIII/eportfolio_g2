@@ -22,7 +22,7 @@ class CicloFormativoFactory extends Factory
             'nombre'=>fake()->words(3,true),
             'codigo'=>fake()->unique()->bothify('CF-###'),
             'grado'=>fake()->randomElement(['G.M.', 'G.S.', 'C.E. (G.M.)', 'C.E. (G.S.)', 'BÁSICA']),
-            'descripcion'=>fake()->sentence()
+            'descripcion'=>fake()->paragraph(),
         ];
     }
 }

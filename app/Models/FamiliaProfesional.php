@@ -20,6 +20,6 @@ class FamiliaProfesional extends Model
         ];
         public function cicloFormativo(): BelongsTo
         {
-            return $this->belongsTo(CicloFormativo::class);
+            return $this->belongsTo(CicloFormativo::class,'id','familia_profesional_id');
         }
 }

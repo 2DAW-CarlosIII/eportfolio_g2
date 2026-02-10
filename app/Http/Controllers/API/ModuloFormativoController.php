@@ -22,13 +22,13 @@ class ModuloFormativoController extends Controller
 
 
         $query = ModuloFormativo::query();
-        if ($query) {
-            $query->orWhere('nombre', 'like', '%' . $request->q . '%');
-        }
 
         return  ModuloFormativoResource::collection(
-            $query->orderBy('nombre', 'asc')
-                ->paginate($request->perPage)
+            $query->when($request->search, function ($query) use ($request) {
+                $query->where('nombre', 'like', '%' .$request->search . '%');
+            })
+            ->orderBy($request->sort ?? 'id', $request->order ?? 'asc')
+            ->paginate($request->perPage ?? 15)
         );
     }
 
@@ -37,9 +37,14 @@ class ModuloFormativoController extends Controller
      */
     public function store(Request $request, $parent_id)
     {
-        $data = $request->all();
+        $data = $request->validate([
+            'nombre' => 'required|string|max:255',
+            'codigo' => 'required|string|max:255',
+            'horas_totales' => 'required|integer|min:1',
+            'curso_escolar' => 'required|string|max:255',
+            'centro' => 'required|string|max:255',
+        ]);
 
-        $data['ciclo_formativo_id'] = $parent_id;
 
         $moduloFormativo = ModuloFormativo::create($data);
 
@@ -74,7 +79,7 @@ class ModuloFormativoController extends Controller
     {
         try {
             $id->delete();
-            return response()->json(null, 204);
+            return response()->json(['message' => 'ModuloFormativo eliminado correctamente'], 200);
         } catch (\Exception $e) {
             return response()->json(['message' => $e->getMessage()], 400);
         }
