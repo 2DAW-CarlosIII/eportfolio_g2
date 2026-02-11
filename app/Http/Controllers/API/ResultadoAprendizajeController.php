@@ -18,7 +18,7 @@ class ResultadoAprendizajeController extends Controller
 
         return ResultadoAprendizajeResource::collection(
             ResultadoAprendizaje::when($request->search, function ($query) use ($request) {
-                $query->where('id', 'like', '%' . $request->search . '%');
+                $query->where('descripcion', 'like', '%' . $request->search . '%');
             })
             ->where('modulo_formativo_id', $moduloFormativo->id)
             ->orderBy($request->_sort ?? 'id', $request->_order ?? 'asc')

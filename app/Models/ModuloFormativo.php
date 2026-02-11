@@ -33,4 +33,9 @@ class ModuloFormativo extends Model
         'docente_id',
         'descripcion'
     ];
+
+
+    public function user(){
+        return $this->hasMany(User::class,'docente_id');
+    }
 }

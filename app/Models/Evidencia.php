@@ -28,4 +28,9 @@ class Evidencia extends Model
     {
         return $this->belongsTo(CriterioEvaluacion::class);
     }
+
+    public function user(){
+        return $this->belongsTo(User::class,'estudiante_id');
+    }
+
 }

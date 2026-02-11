@@ -22,14 +22,17 @@ use App\Http\Controllers\API\RolController;
 use App\Http\Controllers\CriteriosEvaluacionController;
 
 
-Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
-    return $request->user();
-});
+
 
 
 // Rutas /api/v1
 
 Route::prefix('v1')->group(function () {
+
+    Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
+        return response()->json($request->user());
+    });
+
 
     //Rutas API Resource AsignacionRevision
 
@@ -109,7 +112,7 @@ Route::prefix('v1')->group(function () {
             'modulos-formativos' => 'moduloFormativo'
         ]
     );
-    Route::get('modulos-impartidos', [ModuloFormativoController::class, 'index'])->middleware('auth:sanctum');
+    Route::get('modulos-impartidos', [ModuloFormativoController::class, 'getModulosImpartidos'])->middleware('auth:sanctum');
     //Rutas API Resource ResultadoAprendizaje
     Route::apiResource('modulos-formativos.resultados-aprendizaje', ResultadoAprendizajeController::class)
         ->parameters([

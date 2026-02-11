@@ -18,22 +18,39 @@ class ModuloFormativoController extends Controller
     {
 
         return  ModuloFormativoResource::collection(
-            ModuloFormativo::where('ciclo_formativo_id', $cicloFormativo->id)
+            ModuloFormativo::when($request->search, function ($query) use ($request) {
+                $query->where('nombre', 'like', '%' . $request->search . '%');
+            })
+            ->where('ciclo_formativo_id', $cicloFormativo->id)
             ->orderBy('id', 'asc')
                 ->paginate($request->perPage)
         );
     }
 
+    public function getModulosImpartidos(Request $request, CicloFormativo $cicloFormativo, ModuloFormativo $moduloFormativo){
+            return  ModuloFormativoResource::collection(
+            ModuloFormativo::where('docente_id',$request->user()->id)
+            ->orderBy('id', 'asc')
+                ->paginate($request->perPage)
+        );
+    }
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request, CicloFormativo $cicloFormativo, ModuloFormativo $moduloFormativo)
     {
-        $data = $request->all();
+        $data = $request->validate([
+            'nombre'=>'required',
+            'codigo'=>'required',
+            'horas_totales'=>'required',
+            'curso_escolar'=>'required',
+            'centro'=>'required',
+            'descripcion'=>'required'
+        ]);
 
         $data['ciclo_formativo_id'] = $cicloFormativo->id;
-
+        $data['docente_id']=$request->user()->id;
         $moduloFormativo = ModuloFormativo::create($data);
 
         return new ModuloFormativoResource($moduloFormativo);
