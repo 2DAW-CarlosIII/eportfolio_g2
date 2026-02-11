@@ -16,13 +16,12 @@ class CicloController extends Controller
     public function index(Request $request)
     {
         $query = CicloFormativo::query();
-        if ($query) {
-            $query->orWhere('nombre', 'like', '%' . $request->q . '%');
-        }
-
         return CicloResource::collection(
-            CicloFormativo::orderBy($request->_sort ?? 'id', $request->_order ?? 'asc')
-                ->paginate($request->perPage)
+            $query->when($request->search, function ($query) use ($request) {
+                $query->where('nombre', 'like', '%' .$request->search . '%');
+            })
+            ->orderBy($request->sort ?? 'id', $request->order ?? 'asc')
+                ->paginate($request->per_page ?? 15)
         );
     }
 
@@ -31,11 +30,15 @@ class CicloController extends Controller
      */
     public function store(Request $request, $parent_id)
     {
-        $cicloData = json_decode($request->getContent(), true);
 
-        $cicloData['familia_profesional_id'] = $parent_id;
-
-        $ciclo = CicloFormativo::create($cicloData);
+        $cicloData = $request->validate([
+            'nombre' => 'required|string|max:255',
+            'descripcion' => 'nullable|string',
+            'codigo' => 'required|string|max:50|unique:ciclo_formativos,codigo',
+            'grado' => 'required|string|in:G.M.,G.S.,C.E. (G.M.),C.E. (G.S.),BÁSICA',
+            'familia_profesional_id' => 'required|exists:familia_profesionales,id',
+        ]);
+            $ciclo = CicloFormativo::create($cicloData);
 
         return new CicloResource($ciclo);
     }
@@ -54,18 +57,21 @@ class CicloController extends Controller
     public function update(Request $request, $parent_id, CicloFormativo $id)
     {
         $cicloData = json_decode($request->getContent(), true);
-        $id->update($cicloData);
+        //abort_if ($request->user()->cannot('update', $id), 403);
+         $id->update($cicloData);
         return new CicloResource($id);
+
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($parent_id, CicloFormativo $id)
+    public function destroy($parent_id, CicloFormativo $id,Request $request)
     {
         try {
+            //abort_if ($request->user()->cannot('delete', $id), 403);
             $id->delete();
-            return response()->json(null, 204);
+            return response()->json(['message' => 'CicloFormativo eliminado correctamente'], 200);
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Error: ' . $e->getMessage()

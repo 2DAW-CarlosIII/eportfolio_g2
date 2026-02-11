@@ -28,7 +28,7 @@ class ModuloFormativoController extends Controller
                 $query->where('nombre', 'like', '%' .$request->search . '%');
             })
             ->orderBy($request->sort ?? 'id', $request->order ?? 'asc')
-            ->paginate($request->perPage ?? 15)
+                ->paginate($request->perPage ?? 15)
         );
     }
 

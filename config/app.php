@@ -4,7 +4,7 @@ use App\Models\User;
 
 return [
 
-    /*
+    /*app.admin.email
     |--------------------------------------------------------------------------
     | Application Name
     |--------------------------------------------------------------------------
@@ -28,8 +28,8 @@ return [
     */
 
     'env' => env('APP_ENV', 'production'),
-    'admin.email'=>env('ADMIN_EMAIL'),
-    'admin.password'=>env('ADMIN_PASSWORD'),
+    'admin.email' => env('ADMIN_EMAIL'),
+    'admin.password' => env('ADMIN_PASSWORD'),
     /*
     |--------------------------------------------------------------------------
     | Application Debug Mode
@@ -123,8 +123,10 @@ return [
     */
     'maintenance' => [
         'driver' => env('APP_MAINTENANCE_DRIVER', 'file'),
-        'email' => env('ADMIN_EMAIL', 'test@example.com'),
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
-
+    'admin' => [
+        'email' => env('ADMIN_EMAIL','test@example.com'),
+        'password' => env('ADMIN_PASSWORD','password'),
+    ]
 ];
