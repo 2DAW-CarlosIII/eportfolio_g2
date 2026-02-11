@@ -31,7 +31,7 @@ Route::middleware(['auth:sanctum'])->get('/user',function (Request $request) {
 
 Route::prefix('v1')->group(function () {
 
-    Route::get('modulos-impartidos', [ModuloFormativoController::class, 'index'])->middleware('auth:sanctum');;
+    Route::get('modulos-impartidos', [ModuloFormativoController::class, 'modulosImpartidos'])->middleware('auth:sanctum');;
 
     Route::apiResource('familias-profesionales', FamiliaProfesionalController::class)
         ->parameters([

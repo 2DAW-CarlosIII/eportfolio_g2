@@ -16,8 +16,8 @@ return new class extends Migration
             $table->unsignedBigInteger('resultado_aprendizaje_id')->nullable();
             $table->string('codigo');
             $table->text('descripcion');
-            $table->tinyInteger('peso_porcentaje');
-            $table->integer('orden');
+            $table->tinyInteger('peso_porcentaje')->nullable();
+            $table->integer('orden')->nullable();
             $table->timestamps();
         });
     }

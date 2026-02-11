@@ -16,14 +16,22 @@ class FamiliaProfesionalController extends Controller
      */
     public function index(Request $request)
     {
+        $search = $request->input('q', $request->input('search'));
+
         $query = FamiliaProfesional::query();
-        if($query) {
-            $query->orWhere('nombre', 'like', '%' .$request->q . '%');
+
+        if (!empty($search)) {
+            $query->where('nombre', 'like', '%' . $search . '%');
         }
 
+        $sort  = $request->input('_sort', 'id');
+        $order = $request->input('_order', 'asc');
+
+        $perPage = (int) $request->input('perPage', $request->input('per_page', 10));
+        if ($perPage <= 0) $perPage = 10;
+
         return FamiliaProfesionalResource::collection(
-            FamiliaProfesional::orderBy($request->sort ?? 'id', $request->order ?? 'asc')
-                ->paginate($request->per_page)
+            $query->orderBy($sort, $order)->paginate($perPage)
         );
     }
 

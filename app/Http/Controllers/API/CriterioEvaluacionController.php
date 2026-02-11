@@ -15,26 +15,39 @@ class CriterioEvaluacionController extends Controller
      */
     public function index(Request $request)
     {
-       $query = CriterioEvaluacion::query();
-        if($request) {
-            $query->orWhere('id', 'like', '%' .$request->q . '%');
+       $search = $request->input('q', $request->input('search'));
+
+        $query = CriterioEvaluacion::query();
+
+        if (!empty($search)) {
+            $query->where('id', 'like', '%' . $search . '%');
         }
+
+        $sort  = $request->input('_sort', 'id');
+        $order = $request->input('_order', 'asc');
+
+        $perPage = (int) $request->input('perPage', $request->input('per_page', 10));
+        if ($perPage <= 0) $perPage = 10;
+
         return CriterioEvaluacionResource::collection(
-            $query->orderBy($request->_sort ?? 'id', $request->_order ?? 'asc')
-                ->paginate($request->perPage)
+            $query->orderBy($sort, $order)->paginate($perPage)
         );
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, ResultadoAprendizaje $parent_id)
+    public function store(Request $request, ResultadoAprendizaje $resultado_aprendizaje_id)
     {
         $criterio = $request->all();
 
-        $criterio['resultado_aprendizaje_id'] = $parent_id->id;
+        $validatedData = $request->validate([
+            'codigo' => ['required', 'string'],
+            'descripcion' => ['required', 'string'],
+        ]);
 
-        $criterioEvaluacion = CriterioEvaluacion::create($criterio);
+        $validatedData['resultado_aprendizaje_id'] = $resultado_aprendizaje_id->id;
+        $criterioEvaluacion = CriterioEvaluacion::create($validatedData);
 
         return new CriterioEvaluacionResource($criterioEvaluacion);
     }
@@ -65,7 +78,7 @@ class CriterioEvaluacionController extends Controller
     {
         try {
             $id->delete();
-            return response()->json(null, 204);
+            return response()->json(['message' => 'Criterio de Evaluación eliminado correctamente'], 200);
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Error: ' . $e->getMessage()

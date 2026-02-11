@@ -15,24 +15,40 @@ class ResultadoAprendizajeController extends Controller
      */
     public function index(Request $request)
     {
+        $search = $request->input('q', $request->input('search'));
+
         $query = ResultadoAprendizaje::query();
-        if($request) {
-            $query->orWhere('id', 'like', '%' .$request->q . '%');
+
+        if (!empty($search)) {
+            $query->where('id', 'like', '%' . $search . '%');
         }
+
+        $sort  = $request->input('_sort', 'id');
+        $order = $request->input('_order', 'asc');
+
+        $perPage = (int) $request->input('perPage', $request->input('per_page', 10));
+        if ($perPage <= 0) $perPage = 10;
+
         return ResultadoAprendizajeResource::collection(
-            $query->orderBy($request->_sort ?? 'id', $request->_order ?? 'asc')
-            ->paginate($request->perPage));
+            $query->orderBy($sort, $order)->paginate($perPage)
+        );
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, ModuloFormativo $parent_id)
+    public function store(Request $request, ModuloFormativo $modulo_formativo_id)
     {
-        $resultado = $request->all();
 
-        $resultado['modulo_formativo_id'] = $parent_id->id;
-        $resultadoAprendizaje = ResultadoAprendizaje::create($resultado);
+        $validatedData = $request->validate([
+            'codigo' => ['required', 'string'],
+            'descripcion' => ['required', 'string'],
+            'peso_porcentaje' => ['required', 'numeric', 'between:0,100'],
+            'orden' => ['required', 'integer', 'min:1']
+        ]);
+
+        $validatedData['modulo_formativo_id'] = $modulo_formativo_id->id;
+        $resultadoAprendizaje = ResultadoAprendizaje::create($validatedData);
 
         return new ResultadoAprendizajeResource($resultadoAprendizaje);
     }
@@ -50,8 +66,15 @@ class ResultadoAprendizajeController extends Controller
      */
     public function update(Request $request, ModuloFormativo $parent_id, ResultadoAprendizaje $id)
     {
-        $resultadoAprendizajeData = json_decode($request->getContent(), true);
-        $id->update($resultadoAprendizajeData);
+
+        $validatedData = $request->validate([
+            'codigo' => ['required', 'string'],
+            'descripcion' => ['required', 'string'],
+            'peso_porcentaje' => ['required', 'numeric', 'between:0,100'],
+            'orden' => ['required', 'integer', 'min:1']
+        ]);
+
+        $id->update($validatedData);
 
         return new ResultadoAprendizajeResource($id);
     }

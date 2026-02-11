@@ -17,20 +17,32 @@ class ModuloFormativoController extends Controller
     public function index(Request $request)
     {
 
-        $query = $request->is('*modulos-impartidos*')
-            ? $request->user()->modulosImpartidos()
-            : ModuloFormativo::query();
-
+        $search = $request->input('q', $request->input('search'));
 
         $query = ModuloFormativo::query();
-        if ($query) {
-            $query->orWhere('nombre', 'like', '%' . $request->q . '%');
+
+        if (!empty($search)) {
+            $query->where('nombre', 'like', '%' . $search . '%');
         }
 
-        return  ModuloFormativoResource::collection(
-            $query->orderBy('nombre', 'asc')
-                ->paginate($request->perPage)
+        $sort  = $request->input('_sort', 'id');
+        $order = $request->input('_order', 'asc');
+
+        $perPage = (int) $request->input('perPage', $request->input('per_page', 10));
+        if ($perPage <= 0) $perPage = 10;
+
+        return ModuloFormativoResource::collection(
+            $query->orderBy($sort, $order)->paginate($perPage)
         );
+    }
+
+    public function modulosImpartidos(Request $request)
+    {
+
+
+        $query = ModuloFormativo::where('docente_id', $request->user()->id);
+
+        return ModuloFormativoResource::collection($query->get());
     }
 
     /**
@@ -38,7 +50,6 @@ class ModuloFormativoController extends Controller
      */
     public function store(Request $request, $parent_id)
     {
-        $validated = $request->all();
 
         $validated = $request->validate([
             'nombre' => ['required', 'string'],
@@ -46,15 +57,16 @@ class ModuloFormativoController extends Controller
             'horas_totales' => ['required', 'integer'],
             'curso_escolar' => ['required', 'string'],
             'centro' => ['required', 'string'],
+                'descripcion' => ['required', 'string'],
 
         ]);
 
-        $$validated['ciclo_formativo_id'] = $parent_id;
+        $validated['ciclo_formativo_id'] = (int) $parent_id;
         $validated['docente_id'] = Auth::id();
 
-        $moduloFormativo = ModuloFormativo::create($validated);
+        $modulo = ModuloFormativo::create($validated);
 
-        return new ModuloFormativoResource($moduloFormativo);
+        return new ModuloFormativoResource($modulo);
     }
 
     /**

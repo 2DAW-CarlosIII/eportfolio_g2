@@ -15,17 +15,26 @@ class CicloController extends Controller
      * Display a listing of the resource.
      */
     public function index(Request $request)
-    {
-        $query = CicloFormativo::query();
-        if ($query) {
-            $query->orWhere('nombre', 'like', '%' . $request->q . '%');
-        }
+{
+    $search = $request->input('q', $request->input('search'));
 
-        return CicloResource::collection(
-            CicloFormativo::orderBy($request->_sort ?? 'id', $request->_order ?? 'asc')
-                ->paginate($request->perPage)
-        );
+    $query = CicloFormativo::query();
+
+    if (!empty($search)) {
+        $query->where('nombre', 'like', '%' . $search . '%');
     }
+
+    $sort  = $request->input('_sort', 'id');
+    $order = $request->input('_order', 'asc');
+
+    $perPage = (int) $request->input('perPage', $request->input('per_page', 10));
+    if ($perPage <= 0) $perPage = 10;
+
+    return CicloResource::collection(
+        $query->orderBy($sort, $order)->paginate($perPage)
+    );
+}
+
 
     /**
      * Store a newly created resource in storage.
