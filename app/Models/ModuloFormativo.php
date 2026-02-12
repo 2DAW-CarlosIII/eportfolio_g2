@@ -2,14 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class ModuloFormativo extends Model
 {
     protected $table = 'modulos_formativos';
-
+    use HasFactory;
     protected $fillable = [
-        'id',
         'ciclo_formativo_id',
         'nombre',
         'codigo',
@@ -21,7 +21,6 @@ class ModuloFormativo extends Model
     ];
 
     public static $filterColumns = [
-        'id',
         'ciclo_formativo_id',
         'nombre',
         'codigo',
@@ -31,4 +30,13 @@ class ModuloFormativo extends Model
         'docente_id',
         'descripcion'
     ];
+    public function cicloFormativo()
+    {
+        return $this->hasMany(CicloFormativo::class, 'id', 'ciclo_formativo_id');
+    }
+    public function resultadosAprendizaje()
+    {
+        return $this->belongsTo(ResultadoAprendizaje::class, 'id', 'modulo_formativo_id');
+    }
+
 }

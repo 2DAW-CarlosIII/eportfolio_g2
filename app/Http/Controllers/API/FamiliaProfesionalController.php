@@ -17,13 +17,16 @@ class FamiliaProfesionalController extends Controller
     public function index(Request $request)
     {
         $query = FamiliaProfesional::query();
-        if($query) {
-            $query->orWhere('nombre', 'like', '%' .$request->q . '%');
+        if($request->filled('q')) {
+            $query->where('nombre', 'like', '%' .$request->q . '%');
         }
 
         return FamiliaProfesionalResource::collection(
-            FamiliaProfesional::orderBy($request->sort ?? 'id', $request->order ?? 'asc')
-                ->paginate($request->per_page)
+            $query->when($request->search, function ($query) use ($request) {
+                $query->where('nombre', 'like', '%' .$request->search . '%');
+            })
+            ->orderBy($request->sort ?? 'id', $request->order ?? 'asc')
+                ->paginate($request->per_page ?? 15)
         );
     }
 
@@ -32,9 +35,14 @@ class FamiliaProfesionalController extends Controller
      */
     public function store(Request $request)
     {
-        $familiaProfesional = json_decode($request->getContent(), true);
+        $familiaProfesionalData = $request->validate([
+        'nombre' => 'required|string|max:255',
+        'codigo' => 'required|string|unique:familias_profesionales,codigo',
+        'descripcion' => 'nullable|string'
 
-        $familiaProfesional = FamiliaProfesional::create($familiaProfesional);
+    ]);
+        //$familiaProfesional = json_decode($request->getContent(), true);
+        $familiaProfesional = FamiliaProfesional::create($familiaProfesionalData);
 
         return new FamiliaProfesionalResource($familiaProfesional);
     }
@@ -44,6 +52,7 @@ class FamiliaProfesionalController extends Controller
      */
     public function show(FamiliaProfesional $familiaProfesional)
     {
+
         return new FamiliaProfesionalResource($familiaProfesional);
     }
 
@@ -65,7 +74,7 @@ class FamiliaProfesionalController extends Controller
     {
          try {
             $familiaProfesional->delete();
-            return response()->json(null, 204);
+            return response()->json(['message' => 'FamiliaProfesional eliminado correctamente'], 200);
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Error: ' . $e->getMessage()

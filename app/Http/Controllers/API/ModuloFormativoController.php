@@ -22,25 +22,30 @@ class ModuloFormativoController extends Controller
 
 
         $query = ModuloFormativo::query();
-        if ($query) {
-            $query->orWhere('nombre', 'like', '%' . $request->q . '%');
-        }
 
         return  ModuloFormativoResource::collection(
-            $query->orderBy('nombre', 'asc')
-                ->paginate($request->perPage)
+            $query->when($request->search, function ($query) use ($request) {
+                $query->where('nombre', 'like', '%' .$request->search . '%');
+            })
+            ->orderBy($request->sort ?? 'id', $request->order ?? 'asc')
+                ->paginate($request->perPage ?? 15)
         );
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, $parent_id)
+    public function store(Request $request, CicloFormativo $parent_id)
     {
-        $data = $request->all();
+        $data = $request->validate([
+            'nombre' => 'required|string|max:255',
+            'codigo' => 'required|string|max:255',
+            'horas_totales' => 'required|integer|min:1',
+            'curso_escolar' => 'required|string|max:255',
+            'centro' => 'required|string|max:255',
+        ]);
 
-        $data['ciclo_formativo_id'] = $parent_id;
-
+        $data['ciclo_formativo_id']=$parent_id->id;
         $moduloFormativo = ModuloFormativo::create($data);
 
         return new ModuloFormativoResource($moduloFormativo);
@@ -49,7 +54,7 @@ class ModuloFormativoController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($parent_id, CicloFormativo $cicloFormativo, ModuloFormativo $id)
+    public function show(CicloFormativo $parent_id,  ModuloFormativo $id)
     {
         //abort_if($id->ciclo_formativo_id != $cicloFormativo->id, 404, 'Módulo Formativo no encontrado en el Ciclo Formativo especificado.');
         return new ModuloFormativoResource($id);
@@ -59,7 +64,7 @@ class ModuloFormativoController extends Controller
      * Update the specified resource in storage.
      */
 
-    public function update(Request $request, $parent_id, ModuloFormativo $id)
+    public function update(Request $request,CicloFormativo $parent_id, ModuloFormativo $id)
     {
         $moduloFormativoData = json_decode($request->getContent(), true);
         $id->update($moduloFormativoData);
@@ -70,11 +75,11 @@ class ModuloFormativoController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($parent_id, ModuloFormativo $id)
+    public function destroy(CicloFormativo $parent_id, ModuloFormativo $id)
     {
         try {
             $id->delete();
-            return response()->json(null, 204);
+            return response()->json(['message' => 'ModuloFormativo eliminado correctamente'], 200);
         } catch (\Exception $e) {
             return response()->json(['message' => $e->getMessage()], 400);
         }

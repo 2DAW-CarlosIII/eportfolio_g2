@@ -1,8 +1,10 @@
 <?php
 
+use App\Models\User;
+
 return [
 
-    /*
+    /*app.admin.email
     |--------------------------------------------------------------------------
     | Application Name
     |--------------------------------------------------------------------------
@@ -14,7 +16,6 @@ return [
     */
 
     'name' => env('APP_NAME', 'Laravel'),
-
     /*
     |--------------------------------------------------------------------------
     | Application Environment
@@ -27,7 +28,7 @@ return [
     */
 
     'env' => env('APP_ENV', 'production'),
-
+    
     /*
     |--------------------------------------------------------------------------
     | Application Debug Mode
@@ -117,10 +118,14 @@ return [
     | Supported drivers: "file", "cache"
     |
     */
-
+    /*Integrity constraint violation: 19 NOT NULL constraint failed: users.email (Connection: sqlite, SQL: insert into "users" ("name", "email", "email_verified_at", "password", "remember_token", "updated_at", "created_at") values (Idella Nolan, ?, 2026-02-10 07:39:55, $2y$04$SFj2Lj/H73OHzm69ddE25.36NjvZMTYHGKiVhG0dqxCY8uptecvBS, Eb0c1tnKla, 2026-02-10 07:39:55, 2026-02-10 07:39:55))
+    */
     'maintenance' => [
         'driver' => env('APP_MAINTENANCE_DRIVER', 'file'),
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
-
+    'admin' => [
+        'email' => env('ADMIN_EMAIL','test@example.com'),
+        'password' => env('ADMIN_PASSWORD','password'),
+    ]
 ];
