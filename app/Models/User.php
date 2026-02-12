@@ -18,16 +18,16 @@ class User extends Authenticatable
     function getRolesAttribute(){
         $roles=[];
         if($this->esAdministrador()){
-            $roles=['administrador'];
+            $roles[]='administrador';
         }
-
-        if($this->esEstudiante()){
-            $roles=['estudiante'];
-        }
-
         if($this->esDocente()){
-            $roles=['docente'];
+            $roles[]='docente';
         }
+        if($this->esEstudiante()){
+            $roles[]='estudiante';
+        }
+
+
 
 
         return $roles;
@@ -96,7 +96,7 @@ class User extends Authenticatable
     }
 
     public function esEstudianteModulo(ModuloFormativo $modulo){
-        return $this->modulosMatriculados()->exists();
+        return $this->modulosMatriculados()->where('estudiante_id',$modulo->id)->exists();
 
     }
 }
