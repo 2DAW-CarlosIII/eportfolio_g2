@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class ModuloFormativo extends Model
 {
+    use HasFactory;
+
     protected $table = 'modulos_formativos';
 
     protected $fillable = [
@@ -31,4 +34,8 @@ class ModuloFormativo extends Model
         'docente_id',
         'descripcion'
     ];
+
+    public function matriculas(){
+        return $this->hasMany(Matricula::class);
+    }
 }

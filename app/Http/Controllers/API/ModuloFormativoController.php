@@ -7,6 +7,7 @@ use App\Http\Resources\ModuloFormativoResource;
 use App\Models\CicloFormativo;
 use App\Models\ModuloFormativo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ModuloFormativoController extends Controller
 {
@@ -16,20 +17,32 @@ class ModuloFormativoController extends Controller
     public function index(Request $request)
     {
 
-        $query = $request->is('*modulos-impartidos*')
-            ? $request->user()->modulosImpartidos()
-            : ModuloFormativo::query();
-
+        $search = $request->input('q', $request->input('search'));
 
         $query = ModuloFormativo::query();
-        if ($query) {
-            $query->orWhere('nombre', 'like', '%' . $request->q . '%');
+
+        if (!empty($search)) {
+            $query->where('nombre', 'like', '%' . $search . '%');
         }
 
-        return  ModuloFormativoResource::collection(
-            $query->orderBy('nombre', 'asc')
-                ->paginate($request->perPage)
+        $sort  = $request->input('_sort', 'id');
+        $order = $request->input('_order', 'asc');
+
+        $perPage = (int) $request->input('perPage', $request->input('per_page', 10));
+        if ($perPage <= 0) $perPage = 10;
+
+        return ModuloFormativoResource::collection(
+            $query->orderBy($sort, $order)->paginate($perPage)
         );
+    }
+
+    public function modulosImpartidos(Request $request)
+    {
+
+
+        $query = ModuloFormativo::where('docente_id', $request->user()->id);
+
+        return ModuloFormativoResource::collection($query->get());
     }
 
     /**
@@ -37,13 +50,23 @@ class ModuloFormativoController extends Controller
      */
     public function store(Request $request, $parent_id)
     {
-        $data = $request->all();
 
-        $data['ciclo_formativo_id'] = $parent_id;
+        $validated = $request->validate([
+            'nombre' => ['required', 'string'],
+            'codigo' => ['required', 'string'],
+            'horas_totales' => ['required', 'integer'],
+            'curso_escolar' => ['required', 'string'],
+            'centro' => ['required', 'string'],
+                'descripcion' => ['required', 'string'],
 
-        $moduloFormativo = ModuloFormativo::create($data);
+        ]);
 
-        return new ModuloFormativoResource($moduloFormativo);
+        $validated['ciclo_formativo_id'] = (int) $parent_id;
+        $validated['docente_id'] = Auth::id();
+
+        $modulo = ModuloFormativo::create($validated);
+
+        return new ModuloFormativoResource($modulo);
     }
 
     /**
@@ -74,7 +97,7 @@ class ModuloFormativoController extends Controller
     {
         try {
             $id->delete();
-            return response()->json(null, 204);
+            return response()->json(['message' => 'ModuloFormativo eliminado correctamente'], 200);
         } catch (\Exception $e) {
             return response()->json(['message' => $e->getMessage()], 400);
         }

@@ -18,6 +18,9 @@ use App\Http\Controllers\API\EvaluacionController;
 use App\Http\Controllers\API\EvaluacionesEvidenciasController;
 use App\Http\Controllers\API\MatriculaController;
 use App\Http\Controllers\API\ResultadoAprendizajeController;
+use App\Http\Controllers\API\RolController;
+use App\Http\Controllers\API\TokenController;
+use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\CriteriosEvaluacionController;
 
 
@@ -30,7 +33,7 @@ Route::middleware(['auth:sanctum'])->get('/user',function (Request $request) {
 
 Route::prefix('v1')->group(function () {
 
-    Route::get('modulos-impartidos', [ModuloFormativoController::class, 'index'])->middleware('auth:sanctum');;
+    Route::get('modulos-impartidos', [ModuloFormativoController::class, 'modulosImpartidos']);
 
     Route::apiResource('familias-profesionales', FamiliaProfesionalController::class)
         ->parameters([
@@ -87,22 +90,33 @@ Route::prefix('v1')->group(function () {
 
 
     Route::apiResource('matriculas', MatriculaController::class);
+    Route::get('modulos-matriculados', [MatriculaController::class, 'modulosMatriculados']);
 
     Route::apiResource('modulos-formativos.resultados-aprendizaje',ResultadoAprendizajeController::class)
-        ->parameters(['modulos-formativos' => 'parent_id', 'resultados-aprendizaje' => 'id'
+        ->parameters(['modulos-formativos' => 'modulo_formativo', 'resultados-aprendizaje' => 'resultado_aprendizaje'
     ]);
 
     Route::apiResource('resultados-aprendizaje.criterios-evaluacion', CriterioEvaluacionController::class)
         ->parameters([
-         'resultados-aprendizaje' => 'parent_id',
-         'criterios-evaluacion' => 'id'
+         'resultados-aprendizaje' => 'resultado_aprendizaje',
+         'criterios-evaluacion' => 'criterio_evaluacion'
     ]);
 
     Route::apiResource('modulos-formativos.matriculas', MatriculaController::class)
         ->parameters(['modulos-formativos' => 'parent_id', 'matriculas' => 'id'
     ]);
 
+    Route::apiResource('roles', RolController::class);
+
+
+    Route::get('/user', [UserController::class, 'perfil']);
 });
+
+
+    // emite un nuevo token
+    Route::post('tokens', [TokenController::class, 'store']);
+    // elimina el token del usuario autenticado
+    Route::delete('tokens', [TokenController::class, 'destroy'])->middleware('auth:sanctum');
 
 
 // Rutas PHP-CRUD-API

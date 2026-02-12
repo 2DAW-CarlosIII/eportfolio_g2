@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger("modulo_formativo_id")->nullable();
             $table->string("codigo",50);
-            $table->text("descripción");
+            $table->text("descripcion")->nullable();
             $table->tinyInteger("peso_porcentaje")->nullable();
             $table->integer("orden")->check("orden>=1");
             $table->timestamps();
