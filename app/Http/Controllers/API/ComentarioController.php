@@ -7,6 +7,7 @@ use App\Http\Resources\ComentarioResource;
 use App\Models\Comentario;
 use App\Models\Evidencia;
 use App\Models\Evidencias;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ComentarioController extends Controller
@@ -16,11 +17,6 @@ class ComentarioController extends Controller
      */
     public function index(Request $request,Evidencia $evidencia,Comentario $comentario)
     {
-            $query = Comentario::where('evidencia_id', $evidencia->id);
-            if ($query) {
-                $query->orWhere('id', 'like', '%' . $request->q . '%');
-            }
-
             return ComentarioResource::collection(
             Comentario::where('evidencia_id',$evidencia->id)
             ->orderBy($request->_sort ?? 'id', $request->_order ?? 'asc')
@@ -50,7 +46,7 @@ class ComentarioController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Evidencia $evidencia, Comentario $comentario)
+    public function update(Request $request,Evidencia $evidencia, Comentario $comentario)
     {
         $comentarioData = json_decode($request->getContent(), true);
         $comentario->update($comentarioData);

@@ -5,16 +5,20 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\TareaResource;
 use App\Models\CriterioEvaluacion;
+use App\Models\ResultadoAprendizaje;
 use App\Models\Tarea;
 use Illuminate\Http\Request;
 
 class TareaController extends Controller
 {
 
-    public function index(Request $request, $criterioId)
+    public function index(Request $request,CriterioEvaluacion $criterioId)
     {
-        return Tarea::where('criterio_evaluacion_id', $criterioId)
-            ->paginate($request->get('perPage', 15));
+        return TareaResource::collection(
+            Tarea::where('criterio_evaluacion_id', $criterioId->id)
+            ->orderBy($request->_sort ?? 'id', $request->_order ?? 'asc')
+            ->paginate($request->get('perPage', 15))
+        );
     }
 
     public function store(Request $request)
@@ -26,12 +30,12 @@ class TareaController extends Controller
         return new TareaResource($tarea);
     }
 
-    public function show(CriterioEvaluacion $criterioEvaluacion, Tarea $tarea)
+    public function show(CriterioEvaluacion $criterioId, Tarea $id)
     {
-        return new TareaResource($tarea);
+        return new TareaResource($id);
     }
 
-    public function update(Request $request, CriterioEvaluacion $criterioEvaluacion, Tarea $tarea)
+    public function update(Request $request, Tarea $tarea)
     {
         $tareaData = json_decode($request->getContent(), true);
         $tarea->update($tareaData);
@@ -53,33 +57,17 @@ class TareaController extends Controller
     }
 
 
-
-    public function indexByCriterio(Request $request, $criterio_evaluacion_id)
+    public function getTareasPorResultado(Request $request,ResultadoAprendizaje $resultadoId)
     {
+        $criterio = CriterioEvaluacion::where('resultado_aprendizaje_id', $resultadoId->id)->pluck('id');
+
         return TareaResource::collection(
-            Tarea::where('criterio_evaluacion_id', $criterio_evaluacion_id)
-                ->orderBy($request->_sort ?? 'id', $request->_order ?? 'asc')
-                ->paginate($request->perPage)
+            Tarea::whereIn('criterio_evaluacion_id', $criterio)
+            ->orderBy($request->_sort ?? 'id', $request->_order ?? 'asc')
+            ->paginate($request->get('perPage', 15))
         );
     }
 
-    public function showByCriterio($criterio_evaluacion_id, $id)
-    {
-        $tarea = Tarea::where('criterio_evaluacion_id', $criterio_evaluacion_id)
-            ->where('id', $id)
-            ->firstOrFail();
 
-        return new TareaResource($tarea);
-    }
-
-    public function storeByCriterio(Request $request, $criterio_evaluacion_id)
-    {
-        $tareaData = json_decode($request->getContent(), true);
-        $tareaData['criterio_evaluacion_id'] = $criterio_evaluacion_id;
-
-        $tarea = Tarea::create($tareaData);
-
-        return new TareaResource($tarea);
-    }
 
 }

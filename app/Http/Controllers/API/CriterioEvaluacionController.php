@@ -13,14 +13,16 @@ class CriterioEvaluacionController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(Request $request,ResultadoAprendizaje $resultadoAprendizaje,CriterioEvaluacion $criterioEvaluacion)
     {
-       $query = CriterioEvaluacion::query();
-        if($request) {
-            $query->orWhere('id', 'like', '%' .$request->q . '%');
-        }
+
+
         return CriterioEvaluacionResource::collection(
-            $query->orderBy($request->_sort ?? 'id', $request->_order ?? 'asc')
+            CriterioEvaluacion::when($request->search, function ($query) use ($request) {
+                $query->where('descripcion', 'like', '%' . $request->search . '%');
+            })
+            ->where('resultado_aprendizaje_id',$resultadoAprendizaje->id)
+            ->orderBy($request->_sort ?? 'id', $request->_order ?? 'asc')
                 ->paginate($request->perPage)
         );
     }
@@ -28,12 +30,16 @@ class CriterioEvaluacionController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, ResultadoAprendizaje $parent_id)
+    public function store(Request $request, ResultadoAprendizaje $resultadoAprendizaje)
     {
-        $criterio = $request->all();
+        $criterio = $request->validate([
+            'codigo'=>'required',
+            'descripcion'=>'required',
+            'peso_porcentaje'=>'required',
+            'orden'=>'required'
+        ]);
 
-        $criterio['resultado_aprendizaje_id'] = $parent_id->id;
-
+        $criterio['resultado_aprendizaje_id'] = $resultadoAprendizaje->id;
         $criterioEvaluacion = CriterioEvaluacion::create($criterio);
 
         return new CriterioEvaluacionResource($criterioEvaluacion);
@@ -42,30 +48,32 @@ class CriterioEvaluacionController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(ResultadoAprendizaje $parent_id, CriterioEvaluacion $id)
+    public function show(ResultadoAprendizaje $resultadoAprendizaje, CriterioEvaluacion $criterioEvaluacion)
     {
-        return new CriterioEvaluacionResource($id);
+        return new CriterioEvaluacionResource($criterioEvaluacion);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, ResultadoAprendizaje $parent_id, CriterioEvaluacion $id)
+    public function update(Request $request, ResultadoAprendizaje $resultadoAprendizaje, CriterioEvaluacion $criterioEvaluacion)
     {
         $criterioData = json_decode($request->getContent(), true);
-        $id->update($criterioData);
+        $criterioEvaluacion->update($criterioData);
 
-        return new CriterioEvaluacionResource($id);
+        return new CriterioEvaluacionResource($criterioEvaluacion);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ResultadoAprendizaje $parent_id, CriterioEvaluacion $id)
+    public function destroy(ResultadoAprendizaje $resultadoAprendizaje, CriterioEvaluacion $criterioEvaluacion)
     {
         try {
-            $id->delete();
-            return response()->json(null, 204);
+            $criterioEvaluacion->delete();
+            return response()->json([
+                'message' => 'Criterio de Evaluación eliminado correctamente'
+            ], 200);
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Error: ' . $e->getMessage()

@@ -9,7 +9,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\EvaluacionesEvidenciasResource;
-use App\Models\EvaluacionesEvidencia;
+use App\Models\EvaluacionEvidencia;
 use App\Models\Evidencia;
 use Illuminate\Http\Request;
 
@@ -18,7 +18,7 @@ class EvaluacionesEvidenciasController extends Controller
     public function index(Request $request)
     {
         return EvaluacionesEvidenciasResource::collection(
-            EvaluacionesEvidencia::orderBy($request->_sort ?? 'id', $request->_order ?? 'asc')
+            EvaluacionEvidencia::orderBy($request->_sort ?? 'id', $request->_order ?? 'asc')
             ->paginate($request->perPage));
     }
 
@@ -26,18 +26,18 @@ class EvaluacionesEvidenciasController extends Controller
     {
         $evaluacionEvidencia = json_decode($request->getContent(), true);
 
-        $evaluacionEvidencia = EvaluacionesEvidencia::create($evaluacionEvidencia);
+        $evaluacionEvidencia = EvaluacionEvidencia::create($evaluacionEvidencia);
 
         return new EvaluacionesEvidenciasResource($evaluacionEvidencia);
     }
 
-    public function show(Evidencia $evidencia, EvaluacionesEvidencia $evaluacionEvidencia)
+    public function show(Evidencia $evidencia, EvaluacionEvidencia $evaluacionEvidencia)
     {
-        
+
         return new EvaluacionesEvidenciasResource($evaluacionEvidencia);
     }
 
-     public function update(Request $request, EvaluacionesEvidencia $evaluacionEvidencia)
+     public function update(Request $request, EvaluacionEvidencia $evaluacionEvidencia)
     {
         $evaluacionEvidenciaData = json_decode($request->getContent(), true);
         $evaluacionEvidencia->update($evaluacionEvidenciaData);
@@ -45,7 +45,7 @@ class EvaluacionesEvidenciasController extends Controller
         return new EvaluacionesEvidenciasResource($evaluacionEvidencia);
     }
 
-    public function destroy(EvaluacionesEvidencia $evaluacionEvidencia)
+    public function destroy(EvaluacionEvidencia $evaluacionEvidencia)
     {
         try {
             $evaluacionEvidencia->delete();
