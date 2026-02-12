@@ -15,7 +15,10 @@ class RolController extends Controller
     public function index(Request $request)
     {
         return RolResource::collection(
-            Rol::orderBy($request->sort ?? 'id', $request->order ?? 'asc')
+            Rol::when($request->search, function ($query) use ($request) {
+                $query->where('name', 'like', '%' . $request->search . '%');
+            })
+            ->orderBy($request->sort ?? 'id', $request->order ?? 'asc')
                 ->paginate($request->per_page));
     }
 
@@ -24,7 +27,10 @@ class RolController extends Controller
      */
     public function store(Request $request)
     {
-        $rolData = json_decode($request->getContent(), true);
+        $rolData = $request->validate([
+            'name'=>'required|unique:roles,name',
+            'description'=>'required'
+        ]);
 
         $rol = Rol::create($rolData);
 
@@ -57,7 +63,9 @@ class RolController extends Controller
     {
         try {
             $role->delete();
-            return response()->json(null, 204);
+            return response()->json([
+                'message' => 'Rol eliminado correctamente'
+            ], 200);
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Error: ' . $e->getMessage()

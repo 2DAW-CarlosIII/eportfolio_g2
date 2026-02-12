@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Matricula;
 use Illuminate\Http\Request;
 use App\Http\Resources\MatriculaResource;
+use App\Http\Resources\ModuloFormativoResource;
 use App\Http\Resources\UserResource;
 use App\Models\ModuloFormativo;
 use App\Models\User;
@@ -24,6 +25,15 @@ class MatriculaController extends Controller
         );
     }
 
+    public function getModulosMatriculados(Request $request){
+        $user=$request->user()->id;
+        $idModulo=Matricula::where('estudiante_id',$user)->get('modulo_formativo_id');
+        return ModuloFormativoResource::collection(
+            ModuloFormativo::whereIn('id',$idModulo)
+            ->orderBy($request->_sort ?? 'id', $request->_order ?? 'asc')
+                ->paginate($request->perPage)
+        );
+    }
     /**
      * Store a newly created resource in storage.
      */
@@ -32,9 +42,34 @@ class MatriculaController extends Controller
         $matricula = $request->all();
 
         $matricula['modulo_formativo_id'] = $moduloFormativo->id;
-
+        $matricula['estudiante_id']=$request->user()->id;
         $matriculas = Matricula::create($matricula);
 
+        return new MatriculaResource($matriculas);
+    }
+
+    public function storeGeneral(Request $request){
+
+        $estudiantes=$request->input('estudiantes_id');
+        $modulos=$request->input('modulos_formativos_id');
+
+        $request->validate([
+            'estudiantes_id'=>'required|array',
+            'modulos_formativos_id'=>'required|array'
+        ]);
+
+        
+        $limit=config('app.max_modulos_matricula');
+        $matriculas=[];
+
+        foreach($estudiantes as $estudianteId){
+            foreach($modulos as $moduloId){
+                $matriculas[]=Matricula::create([
+                    'estudiante_id'=>$estudianteId,
+                    'modulo_formativo_id'=>$moduloId
+                ]);
+            }
+        }
         return new MatriculaResource($matriculas);
     }
 
@@ -64,7 +99,9 @@ class MatriculaController extends Controller
     {
         try {
             $matricula->delete();
-            return response()->json(null, 204);
+            return response()->json([
+                'message' => 'Matricula eliminado correctamente'
+            ], 200);
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Error: ' . $e->getMessage()
