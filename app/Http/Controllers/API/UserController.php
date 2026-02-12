@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Symfony\Component\CssSelector\XPath\Extension\FunctionExtension;
 
 class UserController extends Controller
 {
@@ -17,6 +18,23 @@ class UserController extends Controller
         return UserResource::collection(
             User::orderBy($request->_sort ?? 'id', $request->_order ?? 'asc')
             ->paginate($request->perPage));
+    }
+
+
+    public function perfil(Request $request)
+    {
+        $user = $request->user();
+        $roles = [];
+
+        if ($user->isAdmin()) {
+            $roles[] = 'administrador';
+        } else if ($user->isDocente()) {
+            $roles[] = 'docente';
+        } else if ($user->isEstudiante()) {
+            $roles[] = 'estudiante';
+        }
+
+        return response()->json(['roles' => $roles]);
     }
 
     /**

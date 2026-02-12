@@ -13,24 +13,22 @@ class ResultadoAprendizajeController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(Request $request, ModuloFormativo $modulo_formativo)
     {
         $search = $request->input('q', $request->input('search'));
 
-        $query = ResultadoAprendizaje::query();
+        $perPage = (int) $request->input('perPage', 10);
 
-        if (!empty($search)) {
-            $query->where('id', 'like', '%' . $search . '%');
-        }
-
-        $sort  = $request->input('_sort', 'id');
-        $order = $request->input('_order', 'asc');
-
-        $perPage = (int) $request->input('perPage', $request->input('per_page', 10));
-        if ($perPage <= 0) $perPage = 10;
+        $query = ResultadoAprendizaje::query()
+        ->where('modulo_formativo_id', $modulo_formativo->id)
+        ->when($search, function ($query) use ($search) {
+            $query->where('codigo', 'like', '%' . $search . '%')
+                  ->orWhere('descripcion', 'like', '%' . $search . '%');
+        })
+        ->orderBy('orden');
 
         return ResultadoAprendizajeResource::collection(
-            $query->orderBy($sort, $order)->paginate($perPage)
+            $query->paginate($perPage)
         );
     }
 
@@ -64,7 +62,7 @@ class ResultadoAprendizajeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, ModuloFormativo $parent_id, ResultadoAprendizaje $id)
+    public function update(Request $request, ModuloFormativo $modulo_formativo, ResultadoAprendizaje $resultado_aprendizaje)
     {
 
         $validatedData = $request->validate([
@@ -74,9 +72,9 @@ class ResultadoAprendizajeController extends Controller
             'orden' => ['required', 'integer', 'min:1']
         ]);
 
-        $id->update($validatedData);
+        $resultado_aprendizaje->update($validatedData);
 
-        return new ResultadoAprendizajeResource($id);
+        return new ResultadoAprendizajeResource($resultado_aprendizaje);
     }
 
     /**

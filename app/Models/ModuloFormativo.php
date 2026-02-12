@@ -34,4 +34,8 @@ class ModuloFormativo extends Model
         'docente_id',
         'descripcion'
     ];
+
+    public function matriculas(){
+        return $this->hasMany(Matricula::class);
+    }
 }

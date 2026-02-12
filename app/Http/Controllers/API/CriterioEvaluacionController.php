@@ -13,40 +13,40 @@ class CriterioEvaluacionController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(Request $request, ResultadoAprendizaje $resultado_aprendizaje)
     {
        $search = $request->input('q', $request->input('search'));
 
-        $query = CriterioEvaluacion::query();
+        $perPage = (int) $request->input('perPage', 10);
 
-        if (!empty($search)) {
-            $query->where('id', 'like', '%' . $search . '%');
-        }
-
-        $sort  = $request->input('_sort', 'id');
-        $order = $request->input('_order', 'asc');
-
-        $perPage = (int) $request->input('perPage', $request->input('per_page', 10));
-        if ($perPage <= 0) $perPage = 10;
+        $query = CriterioEvaluacion::query()
+            ->where('resultado_aprendizaje_id', $resultado_aprendizaje->id)
+            ->when($search, function ($query) use ($search) {
+                $query->where('codigo', 'like', '%' . $search . '%')
+                      ->orWhere('descripcion', 'like', '%' . $search . '%');
+            })
+            ->orderBy('orden');
 
         return CriterioEvaluacionResource::collection(
-            $query->orderBy($sort, $order)->paginate($perPage)
+            $query->paginate($perPage)
         );
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, ResultadoAprendizaje $resultado_aprendizaje_id)
+    public function store(Request $request, ResultadoAprendizaje $resultado_aprendizaje)
     {
         $criterio = $request->all();
 
         $validatedData = $request->validate([
             'codigo' => ['required', 'string'],
             'descripcion' => ['required', 'string'],
+            'peso_porcentaje' => ['required', 'numeric', 'between:0,100'],
+            'orden' => ['required', 'integer', 'min:1']
         ]);
 
-        $validatedData['resultado_aprendizaje_id'] = $resultado_aprendizaje_id->id;
+        $validatedData['resultado_aprendizaje_id'] = $resultado_aprendizaje->id;
         $criterioEvaluacion = CriterioEvaluacion::create($validatedData);
 
         return new CriterioEvaluacionResource($criterioEvaluacion);
@@ -63,12 +63,12 @@ class CriterioEvaluacionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, ResultadoAprendizaje $parent_id, CriterioEvaluacion $id)
+    public function update(Request $request, ResultadoAprendizaje $resultado_aprendizaje, CriterioEvaluacion $criterioEvaluacion)
     {
         $criterioData = json_decode($request->getContent(), true);
-        $id->update($criterioData);
+        $criterioEvaluacion->update($criterioData);
 
-        return new CriterioEvaluacionResource($id);
+        return new CriterioEvaluacionResource($criterioEvaluacion);
     }
 
     /**

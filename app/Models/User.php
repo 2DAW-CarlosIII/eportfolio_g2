@@ -51,4 +51,15 @@ class User extends Authenticatable
     {
         return $this->email === config('app.admin.email');
     }
+
+    public function isDocente(): bool
+    {
+        return $this->hasRole('docente');
+    }
+
+    public function isEstudiante(): bool
+    {
+        return $this->hasRole('estudiante');
+    }
+
 }
