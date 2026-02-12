@@ -53,6 +53,11 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Matricula::class, 'matriculas', 'estudiante_id', 'modulo_formativo_id');
     }
-    
+    public function esAdministrador(User $user){
+        if ($user->email == config('app.admin.email')) {
+            return true;
+        }
+        return false;
+    }
 
 }

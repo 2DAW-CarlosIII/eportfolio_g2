@@ -18,11 +18,11 @@ class CicloFormativoFactory extends Factory
     public function definition(): array
     {
         return [
-            'familia_profesional_id'=>FamiliaProfesional::factory(),
-            'nombre'=>fake()->words(3,true),
-            'codigo'=>fake()->unique()->regexify('[A-Z]{3}[0-9]{3}'),
-            'grado'=>fake()->randomElement(['G.M.', 'G.S.', 'C.E. (G.M.)', 'C.E. (G.S.)', 'BÁSICA']),
-            'descripcion'=>fake()->paragraph(),
+            'familia_profesional_id' => FamiliaProfesional::factory(),
+            'nombre' => $this->faker->words(3, true),
+            'codigo' => $this->faker->unique()->regexify('[A-Z]{3}[0-9]{3}'),
+            'grado' => $this->faker->randomElement(['basico', 'medio', 'superior']),
+            'descripcion' => $this->faker->paragraph(),
         ];
     }
 }

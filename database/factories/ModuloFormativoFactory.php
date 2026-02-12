@@ -21,9 +21,9 @@ class ModuloFormativoFactory extends Factory
         return [
             'ciclo_formativo_id' => CicloFormativo::factory(),
             'nombre' => fake()->words(3, true),
-            'codigo' => fake()->unique()->bothify('####'),
-            'horas_totales' => fake()->numberBetween(100, 300),
-            'curso_escolar' => fake()->bothify('2025-2026'),
+            'codigo' => fake()->unique()->regexify('[A-Z]{3}[0-9]{3}'),
+            'horas_totales' => fake()->numberBetween(20, 200),
+            'curso_escolar' => fake()->words(3, true),
             'centro' => fake()->words(3, true),
             'docente_id'=>User::factory(),
             'descripcion' => fake()->paragraph(),

@@ -28,8 +28,7 @@ return [
     */
 
     'env' => env('APP_ENV', 'production'),
-    'admin.email' => env('ADMIN_EMAIL'),
-    'admin.password' => env('ADMIN_PASSWORD'),
+    
     /*
     |--------------------------------------------------------------------------
     | Application Debug Mode

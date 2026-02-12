@@ -7,6 +7,7 @@ use App\Http\Resources\CicloResource;
 use App\Models\CicloFormativo;
 use App\Models\FamiliaProfesional;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class CicloController extends Controller
 {
@@ -28,17 +29,17 @@ class CicloController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, $parent_id)
+    public function store(Request $request,FamiliaProfesional $parent_id)
     {
-
+        //abort_if ($request->user()->cannot('create', CicloFormativo::class), 403);
         $cicloData = $request->validate([
             'nombre' => 'required|string|max:255',
             'descripcion' => 'nullable|string',
-            'codigo' => 'required|string|max:50|unique:ciclo_formativos,codigo',
-            'grado' => 'required|string|in:G.M.,G.S.,C.E. (G.M.),C.E. (G.S.),BÁSICA',
-            'familia_profesional_id' => 'required|exists:familia_profesionales,id',
+            'codigo' => 'required|string|max:50|unique:ciclos_formativos,codigo',
+            'grado' => 'required|string|in:basico, medio, superior',
         ]);
-            $ciclo = CicloFormativo::create($cicloData);
+        $cicloData['familia_profesional_id']=$parent_id->id;
+        $ciclo = CicloFormativo::create($cicloData);
 
         return new CicloResource($ciclo);
     }
@@ -54,10 +55,14 @@ class CicloController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $parent_id, CicloFormativo $id)
+    public function update(Request $request,FamiliaProfesional $parent_id, CicloFormativo $id)
     {
-        $cicloData = json_decode($request->getContent(), true);
+
         //abort_if ($request->user()->cannot('update', $id), 403);
+        $cicloData['familia_profesional_id']=$parent_id->id;
+        $cicloData = json_decode($request->getContent(), true);
+
+
          $id->update($cicloData);
         return new CicloResource($id);
 
