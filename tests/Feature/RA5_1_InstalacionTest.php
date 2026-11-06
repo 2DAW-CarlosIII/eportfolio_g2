@@ -13,7 +13,7 @@ class RA5_1_InstalacionTest extends TestCase
 
     // Desde "workspace" se usa el nombre del servicio ("nginx"); la cabecera Host elige el sitio.
     private const NGINX = 'http://nginx/';
-    private const SITIO = 'eportfolio_g2.test';
+    private const SITIO = 'eportfolio.test';
 
     /** URL del remoto indicado, leída de .git/config, o cadena vacía si no existe. */
     private function urlRemoto(string $remoto): string
@@ -38,7 +38,7 @@ class RA5_1_InstalacionTest extends TestCase
     {
         $url = $this->urlRemoto('origin');
 
-        $this->assertStringContainsStringIgnoringCase('/eportfolio_g2', $url, 'El remoto "origin" debe ser tu fork de eportfolio_g2.');
+        $this->assertStringContainsStringIgnoringCase('/eportfolio', $url, 'El remoto "origin" debe ser tu fork de eportfolio.');
         $this->assertStringNotContainsStringIgnoringCase('2DAW-CarlosIII/', $url, '"origin" apunta al repositorio base, no a tu fork.');
     }
 
@@ -64,8 +64,8 @@ class RA5_1_InstalacionTest extends TestCase
 
     public function test_configuracion_del_ejercicio_4(): void
     {
-        $this->assertSame('eportfolio_g2', config('app.name'));
-        $this->assertSame('http://eportfolio_g2.test', config('app.url'));
+        $this->assertSame('eportfolio', config('app.name'));
+        $this->assertSame('http://eportfolio.test', config('app.url'));
     }
 
     public function test_el_sitio_de_nginx_sirve_laravel(): void
@@ -74,8 +74,8 @@ class RA5_1_InstalacionTest extends TestCase
         $respuesta = Http::withHeaders(['Host' => self::SITIO])->get(self::NGINX);
         $cookies   = implode("\n", $respuesta->toPsrResponse()->getHeader('Set-Cookie'));
 
-        $this->assertSame(200, $respuesta->status(), 'http://eportfolio_g2.test no responde 200: revisa el sitio de nginx y los permisos (--user=laradock).');
+        $this->assertSame(200, $respuesta->status(), 'http://eportfolio.test no responde 200: revisa el sitio de nginx y los permisos (--user=laradock).');
         // La cookie de sesión de Laravel se llama <app>-session (APP_NAME en minúsculas); la de PHP plano, PHPSESSID.
-        $this->assertStringContainsString('-session=', $cookies, 'Quien responde no es Laravel: revisa server_name y root en eportfolio_g2.conf.');
+        $this->assertStringContainsString('-session=', $cookies, 'Quien responde no es Laravel: revisa server_name y root en eportfolio.conf.');
     }
 }
