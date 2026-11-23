@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 
+
+
 Route::get('/', function () {
     return 'Portada del ePortfolio';
 });
@@ -34,3 +36,4 @@ Route::get('/acerca', function () {
         'centro' => config('eportfolio.centro'),
     ];
 })->name('acerca');
+
