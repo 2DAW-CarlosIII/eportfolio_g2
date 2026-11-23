@@ -19,6 +19,8 @@
      ];
 @endphp
 
+@props(['titulo' => null])
+
 <section class="relative">
     <div class="z-10">
         <div class="mx-auto max-w-5xl px-6 md:px-2 py-10 md:py-24 flex flex-col gap-6 items-center">
