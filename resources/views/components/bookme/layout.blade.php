@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contenido de prueba del issue</title>
-    <link rel="icon" type="image/x-icon" href="{{ asset('[plantilla]/images/favico.png') }}">
+    <link rel="icon" type="image/x-icon" href="{{ asset('bookme/images/favico.png') }}">
     
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">

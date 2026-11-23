@@ -1,3 +1,5 @@
+@props(['titulo' => null])
+
 @php
      $testimonios = [
         [   'texto' => 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Consectetur reprehenderit
@@ -19,13 +21,11 @@
      ];
 @endphp
 
-@props(['titulo' => null])
-
 <section class="relative">
     <div class="z-10">
         <div class="mx-auto max-w-5xl px-6 md:px-2 py-10 md:py-24 flex flex-col gap-6 items-center">
             <h1 class="text-4xl font-bold text-center max-w-[600px]">
-                Lorem ipsum dolor sit<br>amet consectetur adipisicing elit
+                {{ $titulo ?? 'Lorem ipsum dolor sit amet consectetur adipisicing elit' }}
             </h1>
             <p class="text-gray-600 text-base md:text-lg text-center max-w-[600px]">
                 Dolorem cupiditate voluptatem veniam reprehenderit, commodi ea quia, sunt enim modi fugit, eius qui
