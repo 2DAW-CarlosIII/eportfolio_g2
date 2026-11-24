@@ -1,12 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PerfilController;
 
 
-
-Route::get('/', function () {
-    return view('home');
-});
+Route::get('/', HomeController::class)->name('home');
 
 Route::prefix('evidencias')->name('evidencias.')->group(function () {
     Route::get('/', function () {
@@ -26,9 +25,12 @@ Route::prefix('evidencias')->name('evidencias.')->group(function () {
     })->whereNumber('id')->name('edit');
 });
 
-Route::get('/perfil/{id?}', function (?string $id = null) {
-    return view('perfil', ['id' => $id]);
-})->whereNumber('id')->name('perfil');
+require __DIR__ . '/evidencias.php';
+require __DIR__ . '/familias-profesionales.php';
+require __DIR__ . '/ciclos-formativos.php';
+require __DIR__ . '/modulos-formativos.php';
+
+Route::get('/perfil/{id?}', PerfilController::class)->whereNumber('id')->name('perfil');
 
 Route::get('/acerca', function () {
     return [

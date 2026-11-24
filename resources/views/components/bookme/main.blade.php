@@ -93,7 +93,6 @@
     </ul>
 </x-bookme.seccion>
     </section>
-    {{-- primer repetido --}}
     <section>
         <div class="mx-auto sm:px-7 px-4 max-w-screen-xl py-20 flex flex-col gap-10">
             <x-bookme.seccion titulo="Lorem ipsum dolor">
@@ -111,7 +110,6 @@
         </div>
     </section>
 
-    {{-- Segundo repetido --}}
     <section class="bg-gray-50">
         <div class="mx-auto sm:px-7 px-4 max-w-screen-xl py-20 flex gap-10 flex flex-col lg:flex-row items-center">
             <div class="flex flex-col gap-4 w-full max-w-[400px]">
@@ -225,7 +223,6 @@
     </section>
 
     
-    {{-- tercer repetido --}}
     <section>
         <div class="px-2 py-20 mx-auto max-w-7xl">
             <div class="grid grid-cols-1 gap-6 lg:gap-12 lg:grid-cols-3">
