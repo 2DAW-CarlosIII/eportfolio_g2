@@ -25,6 +25,11 @@ Route::prefix('evidencias')->name('evidencias.')->group(function () {
     })->whereNumber('id')->name('edit');
 });
 
+require __DIR__ . '/evidencias.php';
+require __DIR__ . '/familias-profesionales.php';
+require __DIR__ . '/ciclos-formativos.php';
+require __DIR__ . '/modulos-formativos.php';
+
 Route::get('/perfil/{id?}', PerfilController::class)->whereNumber('id')->name('perfil');
 
 Route::get('/acerca', function () {
