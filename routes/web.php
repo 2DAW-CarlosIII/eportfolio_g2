@@ -1,12 +1,10 @@
 <?php
 
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PerfilController;
 use Illuminate\Support\Facades\Route;
 
-
-
-Route::get('/', function () {
-    return view('home');
-});
+Route::get('/', HomeController::class);
 
 Route::prefix('evidencias')->name('evidencias.')->group(function () {
     Route::get('/', function () {
@@ -26,9 +24,9 @@ Route::prefix('evidencias')->name('evidencias.')->group(function () {
     })->whereNumber('id')->name('edit');
 });
 
-Route::get('/perfil/{id?}', function (?string $id = null) {
-    return view('perfil', ['id' => $id]);
-})->whereNumber('id')->name('perfil');
+Route::get('/perfil/{id?}', PerfilController::class)
+    ->whereNumber('id')
+    ->name('perfil');
 
 Route::get('/acerca', function () {
     return [
@@ -36,4 +34,6 @@ Route::get('/acerca', function () {
         'centro' => config('eportfolio.centro'),
     ];
 })->name('acerca');
+
+
 
