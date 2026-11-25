@@ -3,6 +3,11 @@
             <x-bookme.logo />    
             <nav>
                 <ul class="flex gap-4 text-sm md:text-base">
+                <li>
+                    <a href="{{ route('familias-profesionales.index') }}" class="hover:text-orange-500">
+                        Familias profesionales
+                    </a>
+                </li>
                     <li>
                         <a href="#" class="hover:text-orange-500">Solution</a>
                     </li>
