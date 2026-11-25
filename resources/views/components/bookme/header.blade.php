@@ -25,4 +25,5 @@
                     Sign up</a>
             </div>
         </div>
-    </header>
+    </div>
+</header>

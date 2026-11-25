@@ -1,9 +1,5 @@
 @props(['evidencias'])
 
 <x-layout titulo="Listado de evidencias">
-    @forelse ($evidencias as $evidencia)
-        <x-tarjeta :evidencia="$evidencia" />
-    @empty
-        <p>No hay evidencias disponibles.</p>
-    @endforelse
+    <p>Aquí aparecerá el listado de evidencias.</p>
 </x-layout>
