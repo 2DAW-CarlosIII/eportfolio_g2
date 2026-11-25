@@ -2,17 +2,15 @@
 
 namespace App\Http\Controllers;
 
+
 use Illuminate\Http\Request;
+use Illuminate\View\View;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Validator;
+use App\Enums\EstadoValidacion;
 
-class EvidenciaController extends Controller
-{
 
-enum EstadoValidacion: string {
-    case PENDIENTE = 'pendiente';
-    case VALIDADA = 'validada';
-    case RECHAZADA = 'rechazada';
-    case ASIGNADA = 'asignada';
-}
+class EvidenciaController extends Controller {
 
 private array $evidencias = [
     ['estudiante_id' => 1, 'tarea_id' => 1, 'url' => 'https://example.com/evidencias/1',
@@ -33,25 +31,33 @@ private array $evidencias = [
      'descripcion' => 'Layout con la plantilla del grupo', 'estado_validacion' => 'validada'],
 ];
 
+    public function reglas(): array
+    {
+        return [
+          'evidencias.*.estado_validacion' => ['required', Rule::enum(EstadoValidacion::class)]
+        ];
+    }
+
 
     public function index(): View
     {
-        return view('evidencias.index');
+        return view('evidencias.index', ['evidencias' => $this->evidencias]);
     }
 
      public function show(int $id): View
     {
+        
         abort_unless(isset($this->evidencias[$id]), 404);
 
-        return view('evidencias.show', ['id' => $id]);
+        return view('evidencias.show', ['id' => $id, 'evidencia' => $this->evidencias[$id]]);
     }
 
      public function create(): View
     {
-
+        return view('evidencias.create');
     }
 
-     public function edit(): View
+     public function edit(int $id): View
     {
         abort_unless(isset($this->evidencias[$id]), 404);
 

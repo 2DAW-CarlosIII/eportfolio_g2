@@ -12,6 +12,9 @@
                     <li>
                         <a href="#" class="hover:text-orange-500">Contact</a>
                     </li>
+                    <li>
+                        <a href="{{ route('evidencias.index') }}" class="hover:text-orange-500">Listado Evidencias</a>
+                    </li>
                 </ul>
             </nav>
             <div class="flex ml-0 md:ml-auto gap-2 md:gap-8 items-center">
