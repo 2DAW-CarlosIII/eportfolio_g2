@@ -26,6 +26,8 @@ Route::prefix('evidencias')->name('evidencias.')->group(function () {
 
 require __DIR__ . '/modulos-formativos.php';
 
+
+
 Route::get('/perfil/{id?}', PerfilController::class)->whereNumber('id')->name('perfil');
 
 Route::get('/acerca', function () {
@@ -34,3 +36,4 @@ Route::get('/acerca', function () {
         'centro' => config('eportfolio.centro'),
     ];
 })->name('acerca');
+
