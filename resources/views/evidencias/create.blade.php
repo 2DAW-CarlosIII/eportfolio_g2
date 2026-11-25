@@ -1,4 +1,3 @@
 <x-layout titulo="Nueva evidencia">
-    <h2>Nueva evidencia</h2>
-    <p>Formulario para añadir una nueva evidencia.</p>
+    <p>Aquí irá el formulario para añadir una evidencia.</p>
 </x-layout>

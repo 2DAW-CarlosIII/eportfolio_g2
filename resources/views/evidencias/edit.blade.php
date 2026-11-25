@@ -1,4 +1,3 @@
-<x-layout titulo="Modificar evidencia">
-    <h2>Modificar evidencia {{ $id }}</h2>
-    <p>Formulario para editar la evidencia {{ $id }}.</p>
+<x-layout :titulo="'Modificar evidencia ' . $id">
+   <p>Aquí irá el formulario para modificar la evidencia {{ $id }}.</p>
 </x-layout>
