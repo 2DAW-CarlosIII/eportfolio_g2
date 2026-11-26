@@ -41,7 +41,7 @@ private array $evidencias = [
 
     public function index(): View
     {
-        return view('evidencias.index', ['evidencias' => $this->evidencias]);
+        return view('evidencias.index', ['evidencias' => $this->evidencias, 'id' => 1]);
     }
 
      public function show(int $id): View
