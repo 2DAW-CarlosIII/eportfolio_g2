@@ -1,33 +1,32 @@
- <header class="border-b-2">
-        <div class="mx-auto max-w-5xl px-6 py-4 flex flex-col md:flex-row gap-2 md:gap-8 items-center">
-            <x-bookme.logo />    
-            <nav>
-                <ul class="flex gap-4 text-sm md:text-base">
+<header class="border-b-2">
+    <div class="mx-auto max-w-5xl px-6 py-4 flex flex-col md:flex-row gap-2 md:gap-8 items-center">
+        <x-bookme.logo />    
+        <nav>
+            <ul class="flex gap-4 text-sm md:text-base">
+            <li>
+                <a href="{{ route('familias-profesionales.index') }}" class="hover:text-orange-500">
+                    Familias profesionales
+                </a>
+            </li>
                 <li>
-                    <a href="{{ route('familias-profesionales.index') }}" class="hover:text-orange-500">
-                        Familias profesionales
+                    <a href="{{ route('ciclos-formativos.index') }}" class="hover:text-orange-500">
+                        Ciclos formativos
                     </a>
+                </li>  
+                <li>
+                    <a href="{{ route('modulos-formativos.index') }}" class="hover:text-orange-500">Modulos formativos</a>
                 </li>
-                    <li>
-                        <a href="{{ route('ciclos-formativos.index') }}" class="hover:text-orange-500">
-                            Ciclos formativos
-                        </a>
-                    </li>  
-                    <li>
-                        <a href="{{ route('modulos-formativos.index') }}" class="hover:text-orange-500">Modulos formativos</a>
-                    </li>
-                    <li>
-                        <a href="{{ route('evidencias.index') }}" class="hover:text-orange-500">Listado Evidencias</a>
-                    </li>
-                </ul>
-            </nav>
-            <div class="flex ml-0 md:ml-auto gap-2 md:gap-8 items-center">
-                <a href={{ url('/') }} class="text-sm md:text-base hover:text-orange-500">Demo</a>
-                <a href={{ url('/') }}
-                    class="text-sm md:text-base bg-orange-500 rounded text-white font-bold py-2 px-6 hover:bg-orange-600">Login
-                    /
-                    Sign up</a>
-            </div>
+                <li>
+                    <a href="{{ route('evidencias.index') }}" class="hover:text-orange-500">Listado Evidencias</a>
+                </li>
+            </ul>
+        </nav>
+        <div class="flex ml-0 md:ml-auto gap-2 md:gap-8 items-center">
+            <a href={{ url('/') }} class="text-sm md:text-base hover:text-orange-500">Demo</a>
+            <a href={{ url('/') }}
+                class="text-sm md:text-base bg-orange-500 rounded text-white font-bold py-2 px-6 hover:bg-orange-600">Login
+                /
+                Sign up</a>
         </div>
     </div>
 </header>

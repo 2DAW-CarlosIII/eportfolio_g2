@@ -7,7 +7,7 @@
         $id = $loop->index;
     @endphp
         
-        <x-tarjeta :id="$id" :evidencia="$evidencia" />
+        <x-tarjeta-evidencia-listado :id="$id" :evidencia="$evidencia" />
     @empty
         <p>No hay evidencias disponibles.</p>
     @endforelse

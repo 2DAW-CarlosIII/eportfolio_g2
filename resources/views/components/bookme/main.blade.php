@@ -1,5 +1,5 @@
 
-  @props(['titulo' => null])
+@props(['titulo' => null])
 
 @php
     $texto = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Dignissim fusce tortor, ac sed malesuada blandit. Et mi gravida sem feugiat.';
@@ -38,7 +38,7 @@
     ];
 @endphp
   
-  <main>
+<main>
 
     <section class="relative">
         <div class="z-10">
