@@ -1,6 +1,6 @@
 @props(['moduloFormativo', 'id'])
 
-    <div class="rounded-lg bg-white p-4 shadow ">
+    <div class="w-full max-w-2xl rounded-lg bg-white p-4 shadow ">
         <div class="space-y-3 sm:col-span-2 border-2 border-black-200 rounded-lg p-4  ">
             <h2 class="text-2xl font-semibold">
                 <a href="{{ route('modulos-formativos.show', $id) }}"> {{ $moduloFormativo['nombre'] }}</a>
