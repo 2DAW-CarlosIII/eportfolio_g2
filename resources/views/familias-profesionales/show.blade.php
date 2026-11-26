@@ -14,7 +14,7 @@
             </p>
 
             <div class="mt-6 pt-4 border-t border-gray-200 flex gap-3">
-                <x-bookme.boton href="{{ route('familias-profesionales.edit', ['id' => $id]) }}">
+                <x-bookme.boton primario href="{{ route('familias-profesionales.edit', ['id' => $id]) }}">
                     Editar
                 </x-bookme.boton>
 

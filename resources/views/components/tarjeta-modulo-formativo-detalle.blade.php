@@ -1,8 +1,7 @@
 @props(['moduloFormativo', 'id'])
 
-    <li class="rounded-lg bg-white p-4 shadow">
-
-        <div class="space-y-3 sm:col-span-2">
+    <div class="rounded-lg bg-white p-4 shadow ">
+        <div class="space-y-3 sm:col-span-2 border-2 border-black-200 rounded-lg p-4  ">
             <h2 class="text-2xl font-semibold">
                 <a href="{{ route('modulos-formativos.show', $id) }}"> {{ $moduloFormativo['nombre'] }}</a>
             </h2>
@@ -22,4 +21,5 @@
                 </x-bookme.boton>
             </div>
         </div>
-    </li>
+    </div>
+
