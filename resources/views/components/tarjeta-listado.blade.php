@@ -22,7 +22,7 @@
                 <x-bookme.boton :href="route('evidencias.edit', ['id' => $id])" primario>
                     Editar Proyecto
                 </x-bookme.boton>
-                 <x-bookme.boton :href="route('evidencias.index')" primario>
+                 <x-bookme.boton :href="route('evidencias.index')" >
                     Volver al listado
                 </x-bookme.boton>
             </div>

@@ -9,13 +9,12 @@
                     </a>
                 </li>
                     <li>
-                        <a href="#" class="hover:text-orange-500">Solution</a>
-                    </li>
+                        <a href="{{ route('ciclos-formativos.index') }}" class="hover:text-orange-500">
+                            Ciclos formativos
+                        </a>
+                    </li>  
                     <li>
-                        <a href="#" class="hover:text-orange-500">Pricing</a>
-                    </li>
-                    <li>
-                        <a href="#" class="hover:text-orange-500">Contact</a>
+                        <a href="{{ route('modulos-formativos.index') }}" class="hover:text-orange-500">Modulos formativos</a>
                     </li>
                     <li>
                         <a href="{{ route('evidencias.index') }}" class="hover:text-orange-500">Listado Evidencias</a>

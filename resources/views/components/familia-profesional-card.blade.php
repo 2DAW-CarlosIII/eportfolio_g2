@@ -7,7 +7,7 @@
     </div>
 
     <div>
-        <x-bookme.boton href="{{ route('familias-profesionales.show', ['id' => $id]) }}">
+        <x-bookme.boton primario href="{{ route('familias-profesionales.show', ['id' => $id]) }}">
             Ver detalle
         </x-bookme.boton>
     </div>
