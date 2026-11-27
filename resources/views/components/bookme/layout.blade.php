@@ -8,7 +8,7 @@
     <title>{{ $titulo ? $titulo . ' · ' : '' }}{{ config('app.name') }}</title>
     <link rel="icon" type="image/png" href="{{ asset('bookme/imgs/favico.PNG') }}">
 
-    {{-- Todas las fuente, iconos y las animaciones que contiene el archivo boookme.html) --}}
+    {{-- Todas las fuente, iconos y las animaciones que contiene el archivo boookme.html --}}
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
