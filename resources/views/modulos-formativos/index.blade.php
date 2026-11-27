@@ -7,4 +7,3 @@
     @endforelse
     </ul>
 </x-layout>
-

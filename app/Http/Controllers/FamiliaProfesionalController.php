@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\FamiliaProfesionalRequest;
+use App\Models\FamiliaProfesional;
 
 class FamiliaProfesionalController extends Controller
 {
@@ -139,6 +141,7 @@ class FamiliaProfesionalController extends Controller
         )
     );
 
+    
     public function index()
     {
         return view('familias-profesionales.index', [
@@ -161,6 +164,14 @@ class FamiliaProfesionalController extends Controller
         return view('familias-profesionales.create');
     }
 
+    public function store(FamiliaProfesionalRequest $request)
+    {
+        $datos = $request->validated();
+
+        return redirect()->route('familias-profesionales.index')
+            ->with('mensaje', "Familia profesional «{$datos['nombre']}» creada.");
+    }
+
     public function edit($id)
     {
         abort_if(!isset($this->familiasProfesionales[$id]), 404);
@@ -169,5 +180,15 @@ class FamiliaProfesionalController extends Controller
             'id' => $id,
             'familia' => $this->familiasProfesionales[$id]
         ]);
+    }
+
+    public function update(FamiliaProfesionalRequest $request, $id)
+    {
+        abort_if(!isset($this->familiasProfesionales[$id]), 404);
+
+        $datos = $request->validated();
+
+        return redirect()->route('familias-profesionales.show', $id)
+            ->with('mensaje', "Familia profesional «{$datos['nombre']}» actualizada.");
     }
 }

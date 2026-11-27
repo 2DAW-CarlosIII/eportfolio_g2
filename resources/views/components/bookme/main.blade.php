@@ -1,5 +1,5 @@
 
-  @props(['titulo' => null])
+@props(['titulo' => null])
 
 @php
     $texto = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Dignissim fusce tortor, ac sed malesuada blandit. Et mi gravida sem feugiat.';
@@ -38,7 +38,7 @@
     ];
 @endphp
   
-  <main>
+<main>
 
     <section class="relative">
         <div class="z-10">
@@ -73,7 +73,7 @@
             <img src="{{ asset('bookme/imgs/hero.png') }}" class="mx-auto w-full max-w-[1000px] rounded shadow-2xl" alt="Hero Image">
         </div>
     </section>
-         <section>
+    <section>
         <div class="mx-auto sm:px-7 px-4 max-w-screen-xl py-20 flex flex-col gap-6">
             <h2 class="text-4xl font-bold text-center">{{ $titulo ?? config('app.name') }}</h2>
             {{ $slot }}
@@ -82,31 +82,31 @@
     <section class="bg-gray-50">
         <div class="flex flex-col gap-8 mx-auto sm:px-7 px-4 max-w-screen-xl py-20 mt-20">
             <x-bookme.seccion titulo="Lorem ipsum dolor" gris>
-    <x-slot:descripcion>
-        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Neque autem eos magnam alias, dolorum...
-    </x-slot:descripcion>
+                <x-slot:descripcion>
+                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Neque autem eos magnam alias, dolorum...
+                </x-slot:descripcion>
 
-    <ul class="flex flex-row gap-5 justify-center flex-wrap mx-auto items-center">
-        @foreach ($logos as $logo)
-            <li><img class="grayscale max-w-[140px]" src="{{ $logo }}" alt=""></li>
-        @endforeach
-    </ul>
-</x-bookme.seccion>
+                <ul class="flex flex-row gap-5 justify-center flex-wrap mx-auto items-center">
+                    @foreach ($logos as $logo)
+                        <li><img class="grayscale max-w-[140px]" src="{{ $logo }}" alt=""></li>
+                    @endforeach
+                </ul>
+            </x-bookme.seccion>
+        </div>
     </section>
     <section>
         <div class="mx-auto sm:px-7 px-4 max-w-screen-xl py-20 flex flex-col gap-10">
             <x-bookme.seccion titulo="Lorem ipsum dolor">
-    <x-slot:descripcion>
-        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Neque autem eos magnam alias, dolorum...
-    </x-slot:descripcion>
+                <x-slot:descripcion>
+                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Neque autem eos magnam alias, dolorum...
+                </x-slot:descripcion>
 
-    <div class="flex flex-row gap-5 justify-center flex-wrap mx-auto items-center">
-        @foreach ($caracteristicas as $c)
-            <x-bookme.caracteristica :titulo="$c['titulo']">{{ $c['texto'] }}</x-bookme.caracteristica>
-        @endforeach
-    </div>
+                <div class="flex flex-row gap-5 justify-center flex-wrap mx-auto items-center">
+                    @foreach ($caracteristicas as $c)
+                        <x-bookme.caracteristica :titulo="$c['titulo']">{{ $c['texto'] }}</x-bookme.caracteristica>
+                    @endforeach
+                </div>
             </x-bookme.seccion>
-            </div>
         </div>
     </section>
 
@@ -165,9 +165,7 @@
                         </p>
                         <div class="flex items-center gap-4">
                             <div>
-                                <img class="w-20 rounded-full border border-gray-200"
-
-                                    src="https://randomuser.me/api/portraits/men/34.jpg" alt="">
+                                <img class="w-20 rounded-full border border-gray-200" src="https://randomuser.me/api/portraits/men/34.jpg" alt="">
                             </div>
                             <div class="flex flex-col">
                                 <strong>Firstname lastname</strong>
@@ -236,7 +234,7 @@
                         </p>
                     </div>
                 </div>
-                <div class="relative w-full mx-auto font-normal lg:col-span-2" x-data="{
+            <div class="relative w-full mx-auto font-normal lg:col-span-2" x-data="{
         activeAccordion: '',
         setActiveAccordion(id) {
         this.activeAccordion = (this.activeAccordion == id) ? '' : id
@@ -264,7 +262,7 @@
                             </div>
                         </div>
                     </div>
-                   @foreach ($preguntas as $p)
+                    @foreach ($preguntas as $p)
                         <x-bookme.pregunta :pregunta="$p['pregunta']">{{ $p['respuesta'] }}</x-bookme.pregunta>
                     @endforeach
                 </div>
