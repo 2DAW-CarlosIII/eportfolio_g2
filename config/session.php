@@ -228,6 +228,7 @@ return [
     |
     */
 
-    'serialization' => 'json',
+    'serialization' => env('SESSION_SERIALIZATION', 'php'),
+
 
 ];

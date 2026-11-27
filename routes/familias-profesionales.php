@@ -18,3 +18,8 @@ Route::controller(FamiliaProfesionalController::class)
 
         Route::get('edit/{id}', 'edit')->whereNumber('id')->name('edit');
     });
+
+     Route::prefix('familias-profesionales')->name('familias-profesionales.')->group(function () {
+    Route::post('/', [FamiliaProfesionalController::class, 'store'])->name('store');
+    Route::put('/edit/{id}', [FamiliaProfesionalController::class, 'update'])->name('update');
+});
